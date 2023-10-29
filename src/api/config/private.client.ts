@@ -1,7 +1,7 @@
 import axios from "axios";
 import queryString from "query-string";
 
-const baseURL = process.env.BASE_URL;
+const baseURL = "http://127.0.0.1:8000/api/v1/";
 
 const privateClient = axios.create({
    baseURL,
@@ -15,7 +15,7 @@ privateClient.interceptors.request.use(async (config: any) => {
       ...config,
       headers: {
          "Content-Type": "application/json",
-         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+         Authorization: `Bearer ${localStorage.getItem("acc_token")}`,
       },
    };
 });
