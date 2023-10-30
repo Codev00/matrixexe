@@ -19,10 +19,12 @@ import {
    DropdownMenu,
    DropdownItem,
    Image,
+   Tooltip,
 } from "@nextui-org/react";
 import { setActive } from "@/hook/global.slice";
 import { logout, selectUser } from "@/hook/user.slice";
 import { toast } from "react-toastify";
+import ListGenre from "./ListGenre";
 const NavbarTop = () => {
    const user = useSelector(selectUser);
    const [scroll, setScroll] = useState(0);
@@ -72,7 +74,7 @@ const NavbarTop = () => {
                "flex",
                "relative",
                "items-center",
-               "text-2xl",
+               "text-3xl",
                "data-[active=true]:font-bold",
                "data-[active=true]:after:content-['']",
                "data-[active=true]:after:absolute",
@@ -121,19 +123,32 @@ const NavbarTop = () => {
                   isActive={isActive === item.name ? true : false}
                   className="cursor-pointer"
                >
-                  <Link
-                     color={isActive === item.name ? "danger" : "foreground"}
-                     aria-current="page"
-                     onClick={() => {
-                        if (item.name !== "Genres") {
-                           dispatch(setActive(item.name));
-                           router.push(item.link);
-                        }
-                     }}
-                     size="lg"
-                  >
-                     {item.name}
-                  </Link>
+                  {item.name === "Genres" ? (
+                     <Tooltip
+                        radius="none"
+                        showArrow
+                        shadow="lg"
+                        content={<ListGenre />}
+                     >
+                        <Link aria-current="page" color="foreground" size="lg">
+                           {item.name}
+                        </Link>
+                     </Tooltip>
+                  ) : (
+                     <Link
+                        color={isActive === item.name ? "danger" : "foreground"}
+                        aria-current="page"
+                        onClick={() => {
+                           if (item.name !== "Genres") {
+                              dispatch(setActive(item.name));
+                              router.push(item.link);
+                           }
+                        }}
+                        size="lg"
+                     >
+                        {item.name}
+                     </Link>
+                  )}
                </NavbarItem>
             ))}
          </NavbarContent>
@@ -181,7 +196,14 @@ const NavbarTop = () => {
                         <p className="font-bold">{user.displayName}</p>
                         <p className="font-normal">@{user.username}</p>
                      </DropdownItem>
-                     <DropdownItem key="favorite">Favorites</DropdownItem>
+                     <DropdownItem
+                        key="favorite"
+                        onClick={() =>
+                           router.push(`/user/${user.username}/favorites`)
+                        }
+                     >
+                        Favorites
+                     </DropdownItem>
                      <DropdownItem key="setting">Setting</DropdownItem>
                      <DropdownItem
                         key="logout"

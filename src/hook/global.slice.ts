@@ -33,7 +33,7 @@ const GlobalSlice = createSlice({
 
 export const { setActive, setGenres, setListMovie } = GlobalSlice.actions;
 
-export const genres = (state: RootState) => state.global.Genres;
+export const listGenres = (state: RootState) => state.global.Genres;
 export const Movie = (state: RootState) => state.global.listMovie;
 
 export default GlobalSlice.reducer;

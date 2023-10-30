@@ -23,6 +23,16 @@ const mediaApi = {
          return { error };
       }
    },
+   searchGenre: async (id: any) => {
+      try {
+         const res = await publicClient.get<MovieType[], MovieType[]>(
+            `/movie/search/genre?search=${id}`
+         );
+         return { res };
+      } catch (error: any) {
+         return { error };
+      }
+   },
 };
 
 export default mediaApi;
