@@ -22,7 +22,7 @@ const SearchGenre = () => {
          if (res) setMovies(res);
          if (error) toast.error(error?.message);
       })();
-   }, []);
+   }, [search]);
    const items = useMemo(() => {
       const start = 0;
       const add = (page - 1) * rowPerPage;
