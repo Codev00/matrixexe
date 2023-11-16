@@ -1,7 +1,7 @@
 "use client";
 import { RootState } from "@/hook/store";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
    Navbar,
@@ -20,16 +20,25 @@ import {
    DropdownItem,
    Image,
    Tooltip,
+   Input,
+   Accordion,
+   AccordionItem,
 } from "@nextui-org/react";
-import { setActive } from "@/hook/global.slice";
+import { Movie, listGenres, setActive } from "@/hook/global.slice";
 import { logout, selectUser } from "@/hook/user.slice";
 import { toast } from "react-toastify";
 import ListGenre from "./ListGenre";
+import { SearchIcon } from "@/assets/icon/SearchIcon";
+import tmdbConfig from "@/api/config/tmdb.config";
+import Genres from "./Genres";
 const NavbarTop = () => {
    const user = useSelector(selectUser);
    const [scroll, setScroll] = useState(0);
    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
    const router = useRouter();
+   const [search, setSearch] = useState("");
+   const movies = useSelector(Movie);
+   const Genres = useSelector(listGenres);
    const p = usePathname().split("/")[1];
    const menuItems = [
       { name: "Home", link: "/" },
@@ -58,8 +67,15 @@ const NavbarTop = () => {
    const handleLogout = () => {
       localStorage.removeItem("acc_token");
       dispatch(logout());
-      toast.warning("You're log out");
+      toast.warning("You are signed out !!!");
    };
+   const searchList = useMemo(() => {
+      if (search) {
+         return movies.filter((movie) => {
+            return movie.name.toLowerCase().includes(search.toLowerCase());
+         });
+      }
+   }, [search]);
    return (
       <Navbar
          shouldHideOnScroll
@@ -125,10 +141,14 @@ const NavbarTop = () => {
                >
                   {item.name === "Genres" ? (
                      <Tooltip
-                        radius="none"
+                        radius="lg"
                         showArrow
                         shadow="lg"
                         content={<ListGenre />}
+                        classNames={{
+                           base: ["bg-slate-950"],
+                           arrow: [" bg-slate-950"],
+                        }}
                      >
                         <Link aria-current="page" color="foreground" size="lg">
                            {item.name}
@@ -154,41 +174,139 @@ const NavbarTop = () => {
          </NavbarContent>
          <NavbarMenu>
             {menuItems.map((item, index) => (
-               <NavbarMenuItem key={`${item}-${index}`}>
-                  <Link
-                     color={isActive === item.name ? "danger" : "foreground"}
-                     className="w-full"
-                     size="lg"
-                     href={
-                        item.name === "Home"
-                           ? "/"
-                           : item.name === "Movie"
-                           ? "/movie/list"
-                           : item.name === "TV/Series"
-                           ? "/tv"
-                           : "/about"
-                     }
-                  >
-                     {item.name}
-                  </Link>
+               <NavbarMenuItem key={`${item}-${index}`} className="text-xl">
+                  {item.name === "Genres" ? (
+                     <Accordion
+                        itemClasses={{ base: ["px-0"] }}
+                        className="px-0"
+                     >
+                        <AccordionItem
+                           key="1"
+                           aria-label="Genres"
+                           title="Genres"
+                           className="py-0"
+                           classNames={{
+                              trigger: "py-0",
+                           }}
+                        >
+                           <div className="flex w-full flex-wrap  ">
+                              {Genres?.map((item, index) => (
+                                 <div
+                                    key={index}
+                                    className="flex items-start text-slate-400 justify-center px-3  py-2 w-[50%] cursor-pointer box-border  hover:text-danger font-normal transition-all duration-300 ease-linear"
+                                    onClick={() =>
+                                       router.push(
+                                          `/movie/search/genre?search=${item._id}&title=${item.title}`
+                                       )
+                                    }
+                                 >
+                                    <span>{item.title}</span>
+                                 </div>
+                              ))}
+                           </div>
+                        </AccordionItem>
+                     </Accordion>
+                  ) : (
+                     <Link
+                        color={isActive === item.name ? "danger" : "foreground"}
+                        className="w-full"
+                        size="lg"
+                        href={
+                           item.name === "Home"
+                              ? "/"
+                              : item.name === "Movie"
+                              ? "/movie/list"
+                              : "/about"
+                        }
+                     >
+                        {item.name}
+                     </Link>
+                  )}
                </NavbarMenuItem>
             ))}
          </NavbarMenu>
-         {user.username !== "" ? (
+         {user.username && (
             <NavbarContent as="div" justify="end">
+               <div className="relative">
+                  <Input
+                     classNames={{
+                        base: "max-w-[8rem] sm:max-w-[10rem] h-10",
+                        mainWrapper: "h-full",
+                        input: "text-small",
+                        inputWrapper:
+                           "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
+                     }}
+                     placeholder="Search movie name..."
+                     size="sm"
+                     variant="flat"
+                     onKeyDown={(event) => {
+                        if (event.key === "Enter") {
+                           console.log(search);
+                        }
+                     }}
+                     color="secondary"
+                     startContent={<SearchIcon size={18} />}
+                     type="search"
+                     onChange={(e) => setSearch(e.target.value)}
+                     value={search}
+                  />
+                  {searchList && (
+                     <div className="absolute bg-slate-950 w-[250px] right-0 max-h-[500px] mt-2 overflow-y-scroll scrollbar-hide px-1 py-2 rounded-md">
+                        <div className="flex flex-col gap-2  ">
+                           {searchList === null && (
+                              <div>
+                                 <span>No search Item</span>
+                              </div>
+                           )}
+                           {searchList.map((item, index) => (
+                              <div
+                                 className="flex gap-2 h-[150px] cursor-pointer"
+                                 onClick={() => {
+                                    setSearch("");
+                                    router.push(`/movie/${item?._id}`);
+                                 }}
+                                 key={index}
+                              >
+                                 <Image
+                                    src={tmdbConfig.posterPath(
+                                       item.poster_path
+                                    )}
+                                    width={100}
+                                    height={150}
+                                    radius="none"
+                                    className="w-[100px]"
+                                 />
+                                 <div className="text-sm font-bold w-[140px] text-slate-100 whitespace-wrap overflow-hidden text-ellipsis">
+                                    <span className="">{item.name}</span>
+                                 </div>
+                              </div>
+                           ))}
+                        </div>
+                     </div>
+                  )}
+               </div>
                <Dropdown
                   placement="bottom-end"
                   showArrow
-                  className="border-[1px] border-danger-500 bg-slate-900"
+                  className="border-[1px] border-warning-500 bg-slate-900"
+                  classNames={{
+                     arrow: "bg-warning-500",
+                  }}
                >
                   <DropdownTrigger>
                      <Avatar
                         isBordered
+                        showFallback
                         as="button"
                         className="transition-transform object-cover"
-                        color="danger"
-                        size="md"
-                        src="/images/avatar.svg"
+                        color="warning"
+                        size="sm"
+                        // name={user.displayName}
+                        src="https://images.unsplash.com/broken"
+                        classNames={{
+                           base: "bg-gradient-to-br from-[#FFB457] to-[#FF705B]",
+                           icon: "text-black/80",
+                        }}
                      />
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Profile Actions" variant="flat">
@@ -214,24 +332,6 @@ const NavbarTop = () => {
                      </DropdownItem>
                   </DropdownMenu>
                </Dropdown>
-            </NavbarContent>
-         ) : (
-            <NavbarContent justify="end">
-               <NavbarItem className="hidden lg:flex">
-                  <Link href="/sign-in" color="danger">
-                     Login
-                  </Link>
-               </NavbarItem>
-               <NavbarItem>
-                  <Button
-                     as={Link}
-                     color="danger"
-                     href="/sign-up"
-                     variant="flat"
-                  >
-                     Sign Up
-                  </Button>
-               </NavbarItem>
             </NavbarContent>
          )}
       </Navbar>

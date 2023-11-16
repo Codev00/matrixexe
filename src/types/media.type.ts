@@ -10,6 +10,15 @@ export type VideoType = {
    key: string;
    movie: string;
 };
+
+export type RateType = {
+   _id: string;
+   mediaId: string;
+   userId: string;
+   rating: number;
+   createdAt: string;
+   updatedAt: string;
+};
 export type MovieType = {
    _id: string;
    name: string;
@@ -28,4 +37,6 @@ export type MovieType = {
    status: string;
    genres: GenreType[];
    videos: VideoType[];
+   rating: RateType[];
+   // reviews: ReviewType[];
 };

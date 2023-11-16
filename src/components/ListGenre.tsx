@@ -7,11 +7,11 @@ const ListGenre = () => {
    const genres = useSelector(listGenres);
    const router = useRouter();
    return (
-      <div className="flex w-96 flex-wrap ">
+      <div className="flex w-96 flex-wrap bg-slate-950">
          {genres?.map((item, index) => (
             <div
                key={index}
-               className="flex items-center justify-center px-3  py-2 w-[33%] cursor-pointer box-border  hover:text-danger hover:font-bold transition-all duration-300 ease-linear"
+               className="flex items-center justify-center px-3  py-2 w-[33%] cursor-pointer box-border  hover:text-danger font-medium transition-all duration-300 ease-linear"
                onClick={() =>
                   router.push(
                      `/movie/search/genre?search=${item._id}&title=${item.title}`

@@ -9,4 +9,5 @@ export type UserType = {
    verify: boolean;
    status: boolean;
    favorites: MovieType[];
+   premium: boolean;
 };

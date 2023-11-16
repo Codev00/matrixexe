@@ -5,7 +5,9 @@ import { Autoplay } from "swiper/modules";
 import { Image } from "@nextui-org/react";
 import tmdbConfig from "@/api/config/tmdb.config";
 import { useRouter } from "next/navigation";
-import { MovieType } from "@/types/media.type";
+import { MovieType, RateType } from "@/types/media.type";
+import { AddNoteIcon } from "@/assets/icon/NoteIcon";
+import StarIcon from "@/assets/icon/StarIcon";
 
 const Comming = () => {
    const [medias, setMedias] = useState<MovieType[]>([]);
@@ -19,6 +21,19 @@ const Comming = () => {
          if (error) console.log(error);
       })();
    }, []);
+   const handleVote = (rating: RateType[]) => {
+      const total: number = rating.reduce((sum: any, rate: any) => {
+         return sum + rate?.rating;
+      }, 0);
+      if (rating.length !== 0) {
+         if (total === 0) {
+            return 0;
+         }
+         const average = total / rating.length;
+         return Number(average.toFixed(1));
+      }
+      return 0;
+   };
    return (
       <div className="mt-10">
          <div className="my-16 flex items-center justify-center">
@@ -52,27 +67,42 @@ const Comming = () => {
                      return v2?.views - v1?.views;
                   })
                   .slice(0, 12)
-                  .map((item: any, index: number) => (
+                  .map((item, index: number) => (
                      <SwiperSlide key={index}>
                         <div
-                           className="relative h-full border-[1px] border-slate-700 group cursor-pointer"
+                           className="relative h-full border-[1px] border-slate-900 group cursor-pointer"
                            onClick={() => router.push(`/movie/${item?._id}`)}
                         >
                            <Image
                               src={tmdbConfig.posterPath(item?.poster_path)}
                               radius="none"
                            />
-                           <div className="block h-0 group-hover:h-[30%] absolute bottom-0 left-0 z-10 bg-black/70 w-full  whitespace-nowrap overflow-hidden text-ellipsis group-hover:px-2 group-hover:py-1 text-slate-200 transition-all duration-500 ease-in">
-                              <h1 className="block whitespace-nowrap overflow-hidden text-ellipsis text-base font-bold ">
-                                 {item?.name}
-                              </h1>
+                           <div className=" h-0 group-hover:h-[40%] xl:group-hover:h-[30%] absolute bottom-0 left-0 z-10 bg-black/70 w-full  whitespace-nowrap overflow-hidden text-ellipsis group-hover:px-2 group-hover:py-1 text-slate-200 transition-all duration-500 ease-in-out flex flex-col justify-between">
+                              <div>
+                                 <h1 className="block whitespace-nowrap overflow-hidden text-ellipsis text-base font-medium ">
+                                    {item?.name}
+                                 </h1>
+                              </div>
                               <div className="flex justify-between">
                                  <div className="flex items-center gap-1 text-sm">
                                     <i className="fi fi-rr-clock-five flex items-center text-danger-500"></i>
                                     <span>{item?.runtime} min</span>
                                  </div>
-                                 <span>
-                                    {item?.vote_point / item?.vote_count}
+                                 <span className="flex justify-center items-center gap-1">
+                                    <StarIcon className="text-danger-500" />
+                                    {handleVote(item.rating)}
+                                    /10
+                                 </span>
+                              </div>
+                              <div className="flex justify-between ">
+                                 <div>
+                                    <span className="px-1 bg-danger-500 text-sm rounded">
+                                       HD
+                                    </span>
+                                 </div>
+                                 <span className="text-danger-500 flex justify-center items-center gap-1 font-bold">
+                                    <AddNoteIcon />
+                                    {item?.year}
                                  </span>
                               </div>
                            </div>

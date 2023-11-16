@@ -1,75 +1,73 @@
-import mediaApi from "@/api/modules/mediaApi";
-import React, { useLayoutEffect, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
-import { Image } from "@nextui-org/react";
 import tmdbConfig from "@/api/config/tmdb.config";
-import { useRouter } from "next/navigation";
-import { MovieType, RateType } from "@/types/media.type";
-import StarIcon from "@/assets/icon/StarIcon";
+import mediaApi from "@/api/modules/mediaApi";
 import { AddNoteIcon } from "@/assets/icon/NoteIcon";
+import StarIcon from "@/assets/icon/StarIcon";
+import { MovieType, RateType } from "@/types/media.type";
+import Algorithm from "@/utils/Algorithm";
+import { Image } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
+import React, { Suspense, useEffect, useMemo, useState } from "react";
+import { Autoplay } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
-const Trending = () => {
-   const [medias, setMedias] = useState<MovieType[]>([]);
+const Suggest = () => {
+   const [suggest, setSuggest] = useState<MovieType[]>([]);
    const router = useRouter();
-   useLayoutEffect(() => {
+   useEffect(() => {
       (async () => {
          const { res, error } = await mediaApi.listMedia();
-         if (res) {
-            setMedias(res);
-         }
+         if (res) setSuggest(res);
          if (error) console.log(error);
       })();
    }, []);
+   const suggestList = useMemo(() => {
+      return Algorithm.randomMovie(suggest.length, suggest);
+   }, [suggest]);
    const handleVote = (rating: RateType[]) => {
-      const total: number = rating.reduce((sum: any, rate: any) => {
+      const total: number = rating?.reduce((sum: any, rate: any) => {
          return sum + rate?.rating;
       }, 0);
-      if (rating.length !== 0) {
+      if (rating?.length !== 0) {
          if (total === 0) {
             return 0;
          }
-         const average = total / rating.length;
+         const average = total / rating?.length;
          return Number(average.toFixed(1));
       }
       return 0;
    };
    return (
-      <div className="mt-10">
-         <div className="my-16 flex items-center justify-center">
-            <h1 className="text-4xl font-semibold">Trending</h1>
-         </div>
-         <div>
-            <Swiper
-               modules={[Autoplay]}
-               grabCursor={true}
-               spaceBetween={0}
-               slidesPerView={1}
-               autoplay={{
-                  pauseOnMouseEnter: false,
-                  delay: 5000,
-                  stopOnLastSlide: false,
-                  disableOnInteraction: false,
-               }}
-               loop={true}
-               breakpoints={{
-                  320: {
-                     slidesPerView: 2,
-                     spaceBetween: 5,
-                  },
-                  1024: {
-                     slidesPerView: 5,
-                     spaceBetween: 10,
-                  },
-               }}
-               className="relative w-full h-full mySwiper overflow-x-hidden"
-            >
-               {medias
-                  .sort((v1: any, v2: any) => {
-                     return v2?.views - v1?.views;
-                  })
-                  .slice(0, 10)
-                  .map((item, index: number) => (
+      <Suspense>
+         <div className="my-20">
+            <div className="my-5 border-b-4 border-danger-400 pb-2">
+               <h1 className="text-4xl font-semibold italic">Suggest</h1>
+            </div>
+            <div>
+               <Swiper
+                  modules={[Autoplay]}
+                  grabCursor={true}
+                  spaceBetween={0}
+                  slidesPerView={1}
+                  autoplay={{
+                     pauseOnMouseEnter: false,
+                     delay: 5000,
+                     stopOnLastSlide: false,
+                     disableOnInteraction: false,
+                  }}
+                  loop={true}
+                  breakpoints={{
+                     320: {
+                        slidesPerView: 2,
+                        spaceBetween: 5,
+                     },
+                     1024: {
+                        slidesPerView: 5,
+                        spaceBetween: 10,
+                     },
+                  }}
+                  className="relative w-full h-full mySwiper overflow-x-hidden"
+               >
+                  {suggestList?.map((item, index: number) => (
                      <SwiperSlide key={index}>
                         <div
                            className="relative h-full border-[1px] border-slate-900 group cursor-pointer"
@@ -78,6 +76,9 @@ const Trending = () => {
                            <Image
                               src={tmdbConfig.posterPath(item?.poster_path)}
                               radius="none"
+                              width={200}
+                              height={300}
+                              loading="lazy"
                            />
                            <div className=" h-0 group-hover:h-[40%] xl:group-hover:h-[30%] absolute bottom-0 left-0 z-10 bg-black/70 w-full  whitespace-nowrap overflow-hidden text-ellipsis group-hover:px-2 group-hover:py-1 text-slate-200 transition-all duration-500 ease-in-out flex flex-col justify-between">
                               <h1 className="block whitespace-nowrap overflow-hidden text-ellipsis text-base font-medium ">
@@ -90,7 +91,7 @@ const Trending = () => {
                                  </div>
                                  <span className="flex justify-center items-center gap-1">
                                     <StarIcon className="text-danger-500" />
-                                    {handleVote(item.rating)}
+                                    {handleVote(item?.rating)}
                                     /10
                                  </span>
                               </div>
@@ -109,10 +110,11 @@ const Trending = () => {
                         </div>
                      </SwiperSlide>
                   ))}
-            </Swiper>
+               </Swiper>
+            </div>
          </div>
-      </div>
+      </Suspense>
    );
 };
 
-export default Trending;
+export default Suggest;

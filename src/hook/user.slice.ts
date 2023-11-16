@@ -16,6 +16,7 @@ const initialState: UserState = {
       status: false,
       verify: false,
       favorites: [],
+      premium: false,
    },
 };
 
@@ -46,6 +47,7 @@ const UserSlice = createSlice({
             status: false,
             verify: false,
             favorites: [],
+            premium: false,
          };
       },
    },

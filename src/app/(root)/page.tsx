@@ -6,8 +6,7 @@ import HeroSlice from "@/components/HeroSlice";
 import TopRate from "@/components/TopRate";
 import Trending from "@/components/Trending";
 import { setGenres, setListMovie } from "@/hook/global.slice";
-import { AxiosResponse } from "axios";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -26,7 +25,7 @@ export default function Home() {
       })();
    }, []);
    return (
-      <main className="flex flex-col pt-[60px] md:pt-[0px]">
+      <main className="flex flex-col pt-[60px] md:pt-[0px] scrollbar-hide">
          <HeroSlice />
          <div className="container">
             <Trending />

@@ -1,6 +1,8 @@
 "use client";
 import tmdbConfig from "@/api/config/tmdb.config";
 import mediaApi from "@/api/modules/mediaApi";
+import { AddNoteIcon } from "@/assets/icon/NoteIcon";
+import StarIcon from "@/assets/icon/StarIcon";
 import { MovieType } from "@/types/media.type";
 import { Button, Image, Spinner } from "@nextui-org/react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -50,8 +52,8 @@ const SearchGenre = () => {
                         src={tmdbConfig.posterPath(item?.poster_path)}
                         radius="none"
                      />
-                     <div className="block h-0 group-hover:h-[30%] absolute bottom-0 left-0 z-10 bg-black/80 w-full  whitespace-nowrap overflow-hidden text-ellipsis group-hover:px-2 group-hover:py-1 text-slate-200 transition-all duration-500 ease-in">
-                        <h1 className="block whitespace-nowrap overflow-hidden text-ellipsis text-base font-bold ">
+                     <div className=" h-0 group-hover:h-[40%] xl:group-hover:h-[30%] absolute bottom-0 left-0 z-10 bg-black/70 w-full  whitespace-nowrap overflow-hidden text-ellipsis group-hover:px-2 group-hover:py-1 text-slate-200 transition-all duration-500 ease-in-out flex flex-col justify-between">
+                        <h1 className="block whitespace-nowrap overflow-hidden text-ellipsis text-base font-medium ">
                            {item?.name}
                         </h1>
                         <div className="flex justify-between">
@@ -59,7 +61,22 @@ const SearchGenre = () => {
                               <i className="fi fi-rr-clock-five flex items-center text-danger-500"></i>
                               <span>{item?.runtime} min</span>
                            </div>
-                           <span>{item?.vote_point / item?.vote_count}</span>
+                           <span className="flex justify-center items-center gap-1">
+                              <StarIcon className="text-danger-500" />
+                              {(item?.vote_point / item?.vote_count) | 0}
+                              /10
+                           </span>
+                        </div>
+                        <div className="flex justify-between ">
+                           <div>
+                              <span className="px-1 bg-danger-500 text-sm rounded">
+                                 HD
+                              </span>
+                           </div>
+                           <span className="text-danger-500 flex justify-center items-center gap-1">
+                              <AddNoteIcon />
+                              {item?.year}
+                           </span>
                         </div>
                      </div>
                   </div>
