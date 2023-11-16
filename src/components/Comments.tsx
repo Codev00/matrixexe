@@ -6,12 +6,38 @@ import {
    Textarea,
    User,
 } from "@nextui-org/react";
-import React from "react";
+import React, { useState } from "react";
 import UserReview from "./UserReview";
-import SendReview from "./button/SendReview";
-import { UserType } from "@/types/user.type";
 
-const Comments = ({ user }: { user: UserType }) => {
+import { UserType } from "@/types/user.type";
+import { ReviewType } from "@/types/media.type";
+import reviewApi from "@/api/modules/reviewApi";
+
+const Comments = ({
+   user,
+   reviews,
+   mediaId,
+   callBack,
+}: {
+   user: UserType;
+   reviews?: ReviewType[];
+   mediaId: string;
+   callBack: () => void;
+}) => {
+   const [comment, setComment] = useState("");
+   const handleSubmit = async () => {
+      const { res, error } = await reviewApi.created({
+         mediaId,
+         userId: user._id,
+         review: comment,
+      });
+      if (res) {
+         console.log("Review completed");
+         setComment("");
+         callBack();
+      }
+      if (error) console.log(error);
+   };
    return (
       <div className="container">
          <div className="px-4 md:px-0">
@@ -20,12 +46,17 @@ const Comments = ({ user }: { user: UserType }) => {
             </div>
             <div className="bg-slate-950 rounded-xl  py-2 h-auto min-h-[200px] w-full md:w-[75%] flex flex-col gap-4 ">
                <div>
-                  <div className="whitespace-wrap h-auto flex flex-col gap-2 px-4 text-justify">
-                     <UserReview />
-                     <UserReview />
-                     <UserReview />
-                     <UserReview />
-                     <UserReview />
+                  <div className="whitespace-wrap h-auto flex flex-col gap-7 px-4 text-justify">
+                     {reviews?.length === 0 && (
+                        <div className="text-center">
+                           <h1 className="text-2xl font-semibold text-secondary-500">
+                              No Reviews
+                           </h1>
+                        </div>
+                     )}
+                     {reviews?.map((item, index) => (
+                        <UserReview key={index} review={item} user={user} />
+                     ))}
                   </div>
                   <div className="w-full flex items-center justify-center mt-4">
                      <Button variant="ghost" color="warning">
@@ -52,6 +83,8 @@ const Comments = ({ user }: { user: UserType }) => {
                         className="w-full"
                         size="lg"
                         fullWidth={true}
+                        value={comment}
+                        onValueChange={setComment}
                         classNames={{
                            base: "p-0",
                            label: "p-0",
@@ -59,7 +92,16 @@ const Comments = ({ user }: { user: UserType }) => {
                            innerWrapper: "p-0",
                         }}
                      />
-                     <SendReview />
+                     <div className="flex items-center justify-center h-[58px]">
+                        <Button
+                           variant="ghost"
+                           color="warning"
+                           radius="full"
+                           onClick={handleSubmit}
+                        >
+                           Send <i className="fi fi-rs-paper-plane"></i>
+                        </Button>
+                     </div>
                   </div>
                </div>
             </div>

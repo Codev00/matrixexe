@@ -24,9 +24,6 @@ const randomMovie = (size: number, list: MovieType[]) => {
       }
       row.push(index);
    }
-
-   console.log(result);
-
    return result;
 };
 

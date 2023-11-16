@@ -1,3 +1,4 @@
+import { UserType } from "@/types/user.type";
 import privateClient from "../config/private.client";
 import publicClient from "../config/public.client";
 
@@ -42,6 +43,16 @@ const userApi = {
    getInfo: async () => {
       try {
          const res = await privateClient.get("/user/info");
+         return { res };
+      } catch (error: any) {
+         return { error };
+      }
+   },
+   getUser: async ({ id }: { id: string }) => {
+      try {
+         const res = await publicClient.get<UserType, UserType>(
+            `/user/info/${id}`
+         );
          return { res };
       } catch (error: any) {
          return { error };

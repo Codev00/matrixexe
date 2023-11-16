@@ -1,3 +1,5 @@
+import { UserType } from "./user.type";
+
 export type GenreType = {
    _id: string;
    id: number;
@@ -19,6 +21,13 @@ export type RateType = {
    createdAt: string;
    updatedAt: string;
 };
+
+export type ReviewType = {
+   _id: string;
+   mediaId: string;
+   userId: UserType;
+   review: string;
+};
 export type MovieType = {
    _id: string;
    name: string;
@@ -38,5 +47,5 @@ export type MovieType = {
    genres: GenreType[];
    videos: VideoType[];
    rating: RateType[];
-   // reviews: ReviewType[];
+   reviews: ReviewType[];
 };

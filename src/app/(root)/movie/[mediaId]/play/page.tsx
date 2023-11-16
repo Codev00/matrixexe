@@ -33,7 +33,7 @@ const PlayMovie = () => {
                </div>
             </div>
          )}
-         <Comments user={user} />
+         <Comments user={user} reviews={movie?.reviews} />
          <div className="container">
             <Suggest />
          </div>

@@ -76,6 +76,7 @@ const NavbarTop = () => {
          });
       }
    }, [search]);
+
    return (
       <Navbar
          shouldHideOnScroll
@@ -253,9 +254,11 @@ const NavbarTop = () => {
                   {searchList && (
                      <div className="absolute bg-slate-950 w-[250px] right-0 max-h-[500px] mt-2 overflow-y-scroll scrollbar-hide px-1 py-2 rounded-md">
                         <div className="flex flex-col gap-2  ">
-                           {searchList === null && (
-                              <div>
-                                 <span>No search Item</span>
+                           {searchList.length === 0 && (
+                              <div className="h-10 flex items-center justify-center">
+                                 <span className="text-slate-100">
+                                    No search Item
+                                 </span>
                               </div>
                            )}
                            {searchList.map((item, index) => (
