@@ -1,5 +1,5 @@
 import mediaApi from "@/api/modules/mediaApi";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { Image } from "@nextui-org/react";
@@ -12,7 +12,7 @@ import StarIcon from "@/assets/icon/StarIcon";
 const Comming = () => {
    const [medias, setMedias] = useState<MovieType[]>([]);
    const router = useRouter();
-   useLayoutEffect(() => {
+   useEffect(() => {
       (async () => {
          const { res, error } = await mediaApi.listMedia();
          if (res) {
@@ -37,7 +37,7 @@ const Comming = () => {
    return (
       <div className="mt-10">
          <div className="my-16 flex items-center justify-center">
-            <h1 className="text-4xl font-semibold">Comming Soon</h1>
+            <h1 className="text-4xl font-semibold">New Movies</h1>
          </div>
          <div>
             <Swiper

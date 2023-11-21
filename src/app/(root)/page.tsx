@@ -23,7 +23,7 @@ export default function Home() {
          if (res) dispatch(setGenres(res));
          if (error) toast.error(error?.message);
       })();
-   }, []);
+   }, [dispatch]);
    return (
       <main className="flex flex-col pt-[60px] md:pt-[0px] scrollbar-hide">
          <HeroSlice />

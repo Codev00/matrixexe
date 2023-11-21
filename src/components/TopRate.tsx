@@ -5,7 +5,7 @@ import StarIcon from "@/assets/icon/StarIcon";
 import { MovieType, RateType } from "@/types/media.type";
 import { Button, Image, Spinner } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import React, { useState, useLayoutEffect, useMemo } from "react";
+import React, { useState, useLayoutEffect, useMemo, useEffect } from "react";
 
 const TopRate = () => {
    const [medias, setMedias] = useState<MovieType[]>([]);
@@ -13,7 +13,7 @@ const TopRate = () => {
    const [isLoading, setIsLoading] = useState(false);
    const router = useRouter();
    const rowPerPage = 10;
-   useLayoutEffect(() => {
+   useEffect(() => {
       (async () => {
          const { res, error } = await mediaApi.listMedia();
          if (res) {

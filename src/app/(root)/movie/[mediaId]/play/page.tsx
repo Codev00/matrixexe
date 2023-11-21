@@ -12,15 +12,16 @@ import { toast } from "react-toastify";
 
 const PlayMovie = () => {
    const [movie, setMovie] = useState<MovieType>();
+   const [loading, setLoading] = useState(false);
    const user = useSelector(selectUser);
-   const { mediaId } = useParams();
+   const { mediaId }: { mediaId: string } = useParams();
    useEffect(() => {
       (async () => {
          const { res, error } = await mediaApi.getMedia(mediaId);
          if (res) setMovie(res);
          if (error) toast.error(error?.message);
       })();
-   }, [mediaId]);
+   }, [mediaId, loading]);
    return (
       <Suspense>
          {movie && (
@@ -33,7 +34,14 @@ const PlayMovie = () => {
                </div>
             </div>
          )}
-         <Comments user={user} reviews={movie?.reviews} />
+         <Comments
+            callBack={() => {
+               setLoading(!loading);
+            }}
+            mediaId={mediaId}
+            user={user}
+            reviews={movie?.reviews}
+         />
          <div className="container">
             <Suggest />
          </div>

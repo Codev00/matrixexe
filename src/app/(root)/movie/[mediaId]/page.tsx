@@ -3,7 +3,7 @@ import tmdbConfig from "@/api/config/tmdb.config";
 import mediaApi from "@/api/modules/mediaApi";
 import { PlayIcon } from "../../../../assets/icon/PlayIcon";
 import { toTime } from "@/utils/Algorithm";
-import { ScrollShadow } from "@nextui-org/react";
+import { ScrollShadow, Skeleton } from "@nextui-org/react";
 import dayjs from "dayjs";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
@@ -12,21 +12,27 @@ import { toast } from "react-toastify";
 import Genres from "@/components/Genres";
 import ReactStars from "react-stars";
 import rateApi from "@/api/modules/rateApi";
-import { useSelector } from "react-redux";
-import { selectUser } from "@/hook/user.slice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser, setUser } from "@/hook/user.slice";
 import Comments from "@/components/Comments";
 import Suggest from "@/components/Suggest";
 import FavoriteIcon from "@/assets/icon/FavoriteIcon";
 import { setLazyProp } from "next/dist/server/api-utils";
+import favoritesApi from "@/api/modules/favoriteApi";
+import UnfavoriteIcon from "@/assets/icon/UnfavoriteIcon";
+import userApi from "@/api/modules/userApi";
+import DetailSkeleton from "@/components/skeleton/DetailSkeleton";
 
 const DetailMedia = () => {
    const [media, setMedia] = useState<any>({});
    const user = useSelector(selectUser);
-   const { mediaId } = useParams();
+   const { mediaId }: { mediaId: any } = useParams();
    const router = useRouter();
    const [favorite, setFavorite] = useState(false);
    const [rating, setRating] = useState<any>(0);
-   const [loading, setLoading] = useState(false);
+   const [cmt, actionCmt] = useState(false);
+   const [loadings, setLoading] = useState(true);
+   const dispatch = useDispatch();
 
    useEffect(() => {
       (async () => {
@@ -34,7 +40,28 @@ const DetailMedia = () => {
          if (res) setMedia(res);
          if (error) toast.error(error?.message);
       })();
-   }, [mediaId, rating, loading]);
+   }, [mediaId, rating, cmt, favorite]);
+   useEffect(() => {
+      (async () => {
+         const { res, error } = await userApi.getInfo();
+         if (res) dispatch(setUser(res));
+         if (error) toast.error(error?.message);
+      })();
+   }, [favorite]);
+   useEffect(() => {
+      setTimeout(() => {
+         setLoading(false);
+      }, 3000);
+   }, []);
+   useEffect(() => {
+      const checkFavorites = user.favorites.find((item) => {
+         return item._id === mediaId;
+      });
+
+      if (checkFavorites) {
+         setFavorite(true);
+      }
+   }, [favorite, mediaId]);
    const handleRating = async (value: any) => {
       const { res, error } = await rateApi.create({
          mediaId,
@@ -42,7 +69,7 @@ const DetailMedia = () => {
          rating: value,
       });
       if (res) {
-         toast.success(`Rating updated`);
+         toast.success(`Rating successfully!!!`);
          setRating(value);
       }
       if (error) toast.error(error?.message);
@@ -85,13 +112,27 @@ const DetailMedia = () => {
                         src={tmdbConfig.posterPath(media?.poster_path)}
                         alt={media?.name}
                         width={300}
-                        height={400}
-                        className="rounded-md mt-20 md:mt-0"
+                        height={450}
+                        className="shadow-lg mt-20 md:mt-0"
                      />
 
                      <div className="px-2 h-full w-full text-white flex flex-col gap-2 justify-between">
                         <div className="md:mb-3 flex gap-2">
-                           <FavoriteIcon />
+                           {favorite ? (
+                              <FavoriteIcon
+                                 mediaId={mediaId}
+                                 favorite={() => {
+                                    setFavorite(false);
+                                 }}
+                              />
+                           ) : (
+                              <UnfavoriteIcon
+                                 mediaId={mediaId}
+                                 favorite={() => {
+                                    setFavorite(true);
+                                 }}
+                              />
+                           )}
                            <h1 className="text-4xl  font-medium">
                               {media?.name}{" "}
                               {media?.title &&
@@ -179,7 +220,7 @@ const DetailMedia = () => {
                   mediaId={media?._id}
                   reviews={media?.reviews}
                   callBack={() => {
-                     setLoading(!loading);
+                     actionCmt(!cmt);
                   }}
                />
                <div className="container">

@@ -2,13 +2,14 @@ import {
    Avatar,
    AvatarIcon,
    Button,
+   Chip,
    Link,
    Textarea,
+   Tooltip,
    User,
 } from "@nextui-org/react";
 import React, { useState } from "react";
 import UserReview from "./UserReview";
-
 import { UserType } from "@/types/user.type";
 import { ReviewType } from "@/types/media.type";
 import reviewApi from "@/api/modules/reviewApi";
@@ -25,6 +26,7 @@ const Comments = ({
    callBack: () => void;
 }) => {
    const [comment, setComment] = useState("");
+   const [edit, setEdit] = useState("");
    const handleSubmit = async () => {
       const { res, error } = await reviewApi.created({
          mediaId,
@@ -34,6 +36,19 @@ const Comments = ({
       if (res) {
          console.log("Review completed");
          setComment("");
+         callBack();
+      }
+      if (error) console.log(error);
+   };
+   const handleEdit = async ({ review, id }: any) => {
+      const { res, error } = await reviewApi.edited({
+         review: review,
+         id: id,
+      });
+      if (res) {
+         console.log("Update Review");
+         setComment("");
+         setEdit("");
          callBack();
       }
       if (error) console.log(error);
@@ -55,7 +70,19 @@ const Comments = ({
                         </div>
                      )}
                      {reviews?.map((item, index) => (
-                        <UserReview key={index} review={item} user={user} />
+                        <UserReview
+                           key={index}
+                           review={item}
+                           user={user}
+                           mediaId={mediaId}
+                           deleted={() => {
+                              callBack();
+                           }}
+                           edit={(value: any, id: any) => {
+                              setComment(value);
+                              setEdit(id);
+                           }}
+                        />
                      ))}
                   </div>
                   <div className="w-full flex items-center justify-center mt-4">
@@ -93,14 +120,40 @@ const Comments = ({
                         }}
                      />
                      <div className="flex items-center justify-center h-[58px]">
-                        <Button
-                           variant="ghost"
-                           color="warning"
-                           radius="full"
-                           onClick={handleSubmit}
-                        >
-                           Send <i className="fi fi-rs-paper-plane"></i>
-                        </Button>
+                        {edit ? (
+                           <div className="flex gap-2 items-center">
+                              <Tooltip content={"Cancel"} color="danger">
+                                 <Chip
+                                    color="danger"
+                                    variant="light"
+                                    className="cursor-pointer"
+                                    onClose={() => {
+                                       setEdit("");
+                                       setComment("");
+                                    }}
+                                 ></Chip>
+                              </Tooltip>
+                              <Button
+                                 variant="ghost"
+                                 color="warning"
+                                 radius="full"
+                                 onClick={() =>
+                                    handleEdit({ review: comment, id: edit })
+                                 }
+                              >
+                                 Send <i className="fi fi-rs-paper-plane"></i>
+                              </Button>
+                           </div>
+                        ) : (
+                           <Button
+                              variant="ghost"
+                              color="warning"
+                              radius="full"
+                              onClick={handleSubmit}
+                           >
+                              Send <i className="fi fi-rs-paper-plane"></i>
+                           </Button>
+                        )}
                      </div>
                   </div>
                </div>

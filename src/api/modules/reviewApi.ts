@@ -17,16 +17,18 @@ const reviewApi = {
    edited: async ({ review, id }: any) => {
       try {
          const res = await privateClient.put(`/review/update/${id}`, {
-            review,
+            review: review,
          });
          return { res };
       } catch (error: any) {
          return { error };
       }
    },
-   deleted: async ({ id }: any) => {
+   deleted: async ({ id, mediaId }: any) => {
       try {
-         const res = await privateClient.delete(`/review/delete/${id}`);
+         const res = await privateClient.put(`/review/delete/${id}`, {
+            mediaId,
+         });
          return { res };
       } catch (error: any) {
          return { error };

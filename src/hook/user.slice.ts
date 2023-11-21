@@ -50,10 +50,15 @@ const UserSlice = createSlice({
             premium: false,
          };
       },
+      deleteFavorite: (state, action) => {
+         state.user.favorites = state.user.favorites.filter(
+            (item: any) => item._id !== action.payload
+         );
+      },
    },
 });
 
-export const { setUser, logout } = UserSlice.actions;
+export const { setUser, logout, deleteFavorite } = UserSlice.actions;
 
 export const selectUser = (state: RootState) => state.user.user;
 

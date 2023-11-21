@@ -11,6 +11,7 @@ const PlayVideo = ({ videos }: { videos: VideoType[] }) => {
             <iframe
                className="w-full h-full aspect-video "
                src={tmdbConfig.youtubePath(select)}
+               allowFullScreen={true}
             ></iframe>
          </div>
          <div className="mt-5">

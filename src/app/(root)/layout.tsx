@@ -31,7 +31,7 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
          if (res) dispatch(setGenres(res));
          if (error) toast.error(error?.message);
       })();
-   }, []);
+   }, [dispatch]);
    return (
       <section className="overflow-x-hidden">
          <NavbarTop />

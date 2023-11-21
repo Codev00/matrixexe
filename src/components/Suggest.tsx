@@ -38,7 +38,7 @@ const Suggest = () => {
    };
    return (
       <Suspense>
-         <div className="my-20">
+         <div className="my-20 mx-3 md:mx-0">
             <div className="my-5 border-b-4 border-danger-400 pb-2">
                <h1 className="text-4xl font-semibold italic">Suggest</h1>
             </div>

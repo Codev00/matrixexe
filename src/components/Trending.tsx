@@ -1,5 +1,5 @@
 import mediaApi from "@/api/modules/mediaApi";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { Image } from "@nextui-org/react";
@@ -12,7 +12,7 @@ import { AddNoteIcon } from "@/assets/icon/NoteIcon";
 const Trending = () => {
    const [medias, setMedias] = useState<MovieType[]>([]);
    const router = useRouter();
-   useLayoutEffect(() => {
+   useEffect(() => {
       (async () => {
          const { res, error } = await mediaApi.listMedia();
          if (res) {

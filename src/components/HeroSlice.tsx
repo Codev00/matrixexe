@@ -3,14 +3,14 @@ import mediaApi from "@/api/modules/mediaApi";
 import { MovieType } from "@/types/media.type";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Genres from "./Genres";
 
 const HeroSlice = () => {
    const [medias, setMedias] = useState<MovieType[]>([]);
-   useLayoutEffect(() => {
+   useEffect(() => {
       (async () => {
          const { res, error } = await mediaApi.listMedia();
          if (res) {
@@ -92,7 +92,7 @@ const HeroSlice = () => {
                               width={330}
                               height={230}
                               alt=""
-                              className="z-10 relative top-5 left-5 rounded-3xl shadow-xl shadow-black"
+                              className="z-10 relative top-5 left-5 shadow-xl shadow-black"
                            />
                         </div>
                      </div>
