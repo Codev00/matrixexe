@@ -6,6 +6,7 @@ import { UserType } from "@/types/user.type";
 import { Avatar, AvatarIcon, Tooltip } from "@nextui-org/react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { format } from "timeago.js";
 
 const UserReview = ({
    review,
@@ -29,7 +30,7 @@ const UserReview = ({
          mediaId,
       });
       if (res) {
-         toast.success("Delete Review !!!");
+         toast.error("Delete Review !!!");
          deleted();
       }
       if (error) console.log(error);
@@ -73,6 +74,11 @@ const UserReview = ({
             </div>
             <div className="whitespace-wrap text-sm w-full">
                <p className="">{review.review}</p>
+            </div>
+            <div>
+               <span className="text-sm text-slate-500">
+                  {format(review.createdAt)}
+               </span>
             </div>
          </div>
       </div>

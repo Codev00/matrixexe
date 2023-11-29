@@ -17,11 +17,8 @@ import { selectUser, setUser } from "@/hook/user.slice";
 import Comments from "@/components/Comments";
 import Suggest from "@/components/Suggest";
 import FavoriteIcon from "@/assets/icon/FavoriteIcon";
-import { setLazyProp } from "next/dist/server/api-utils";
-import favoritesApi from "@/api/modules/favoriteApi";
 import UnfavoriteIcon from "@/assets/icon/UnfavoriteIcon";
 import userApi from "@/api/modules/userApi";
-import DetailSkeleton from "@/components/skeleton/DetailSkeleton";
 
 const DetailMedia = () => {
    const [media, setMedia] = useState<any>({});
@@ -33,7 +30,18 @@ const DetailMedia = () => {
    const [cmt, actionCmt] = useState(false);
    const [loadings, setLoading] = useState(true);
    const dispatch = useDispatch();
+   useEffect(() => {
+      const checkFavorites = user.favorites.find((item) => {
+         console.log(item._id, mediaId);
 
+         return item._id == mediaId;
+      });
+      console.log(checkFavorites);
+
+      if (checkFavorites) {
+         setFavorite(true);
+      }
+   }, [dispatch]);
    useEffect(() => {
       (async () => {
          const { res, error } = await mediaApi.getMedia(mediaId);
@@ -47,21 +55,13 @@ const DetailMedia = () => {
          if (res) dispatch(setUser(res));
          if (error) toast.error(error?.message);
       })();
-   }, [favorite]);
+   }, [favorite, mediaId]);
    useEffect(() => {
       setTimeout(() => {
          setLoading(false);
       }, 3000);
    }, []);
-   useEffect(() => {
-      const checkFavorites = user.favorites.find((item) => {
-         return item._id === mediaId;
-      });
 
-      if (checkFavorites) {
-         setFavorite(true);
-      }
-   }, [favorite, mediaId]);
    const handleRating = async (value: any) => {
       const { res, error } = await rateApi.create({
          mediaId,
@@ -118,7 +118,7 @@ const DetailMedia = () => {
 
                      <div className="px-2 h-full w-full text-white flex flex-col gap-2 justify-between">
                         <div className="md:mb-3 flex gap-2">
-                           {favorite ? (
+                           {favorite == true ? (
                               <FavoriteIcon
                                  mediaId={mediaId}
                                  favorite={() => {

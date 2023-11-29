@@ -27,6 +27,7 @@ export type ReviewType = {
    mediaId: string;
    userId: UserType;
    review: string;
+   createdAt: string;
 };
 export type MovieType = {
    _id: string;

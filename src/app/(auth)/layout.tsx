@@ -12,14 +12,14 @@ export default function AuthLayout({
    return (
       <section>
          <ToastContainer
-            position="top-right"
-            autoClose={3000}
+            position="top-center"
+            autoClose={1000}
             hideProgressBar={true}
             newestOnTop={false}
             closeOnClick
             rtl={false}
             draggable
-            theme="dark"
+            theme="colored"
          />
          <div className="h-screen bg-[url('/images/hero.jpg')] bg-cover bg-no-repeat">
             <div className="h-screen bg-black/30">{children}</div>

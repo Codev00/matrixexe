@@ -18,7 +18,7 @@ const FavoriteIcon = ({
       const { res, error } = await favoritesApi.unFavorites({ mediaId });
       if (res) {
          dispatch(deleteFavorite(mediaId));
-         toast.success(`Delete Favorites @@`);
+         toast.warn(`Delete Favorites !!`);
          favorite();
       }
       if (error) toast.error(error?.message);

@@ -13,6 +13,7 @@ import UserReview from "./UserReview";
 import { UserType } from "@/types/user.type";
 import { ReviewType } from "@/types/media.type";
 import reviewApi from "@/api/modules/reviewApi";
+import { toast } from "react-toastify";
 
 const Comments = ({
    user,
@@ -34,7 +35,7 @@ const Comments = ({
          review: comment,
       });
       if (res) {
-         console.log("Review completed");
+         toast.success("Review completed");
          setComment("");
          callBack();
       }
@@ -46,7 +47,7 @@ const Comments = ({
          id: id,
       });
       if (res) {
-         console.log("Update Review");
+         toast.info("Update Review");
          setComment("");
          setEdit("");
          callBack();

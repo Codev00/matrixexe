@@ -6,7 +6,7 @@ export const toTime = (time: number) => {
    return `${hours}h ${minutes > 0 ? `${minutes}m` : ""}`;
 };
 
-const Zord = {
+export const Zord = {
    random: (size: number) => {
       return Math.floor(Math.random() * size);
    },

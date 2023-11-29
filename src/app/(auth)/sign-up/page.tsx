@@ -8,7 +8,7 @@ import React, { FormEvent, Suspense, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
-const page = () => {
+const SignUp = () => {
    const dispatch = useDispatch();
    const router = useRouter();
    const [username, setUsername] = useState("");
@@ -170,4 +170,4 @@ const page = () => {
    );
 };
 
-export default page;
+export default SignUp;

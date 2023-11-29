@@ -58,6 +58,30 @@ const userApi = {
          return { error };
       }
    },
+   edit: async ({ id, name, newPassword }: any) => {
+      try {
+         const res = await privateClient.put(`/user/edit/${id}`, {
+            name: name,
+            newPassword: newPassword,
+         });
+         return { res };
+      } catch (error: any) {
+         return { error };
+      }
+   },
+   premium: async (random: number) => {
+      try {
+         const vnp_Amount = 7236099;
+
+         const res = await privateClient.post<any, any>("/payment/premium", {
+            vnp_Amount: vnp_Amount,
+            vnp_TxnRef: random,
+         });
+         return { res };
+      } catch (error: any) {
+         return { error };
+      }
+   },
 };
 
 export default userApi;

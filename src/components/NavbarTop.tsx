@@ -313,7 +313,13 @@ const NavbarTop = () => {
                      />
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Profile Actions" variant="flat">
-                     <DropdownItem key="profile" className="h-14 gap-2">
+                     <DropdownItem
+                        key="profile"
+                        className="h-14 gap-2"
+                        onClick={() =>
+                           router.push(`/user/${user.username}/setting`)
+                        }
+                     >
                         <p className="font-bold">{user.displayName}</p>
                         <p className="font-normal">@{user.username}</p>
                      </DropdownItem>
@@ -325,7 +331,12 @@ const NavbarTop = () => {
                      >
                         Favorites
                      </DropdownItem>
-                     <DropdownItem key="setting">Setting</DropdownItem>
+                     <DropdownItem
+                        key="premium"
+                        onClick={() => router.push(`/user/premium`)}
+                     >
+                        Premium
+                     </DropdownItem>
                      <DropdownItem
                         key="logout"
                         color="danger"

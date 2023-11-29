@@ -17,6 +17,10 @@ body {
    cursor: url("../../public/images/cursor.png"), auto;
 }
 
+.sidebar-active {
+   
+}
+
 .back::after {
    content: "";
    position: absolute;

@@ -21,14 +21,14 @@ export default function RootLayout({
       <html lang="en" className="dark">
          <body className={`${inter.className} scrollbar-hide`}>
             <ToastContainer
-               position="top-right"
-               autoClose={5000}
+               position="top-center"
+               autoClose={1000}
                hideProgressBar={true}
                newestOnTop={false}
                closeOnClick
                rtl={false}
                draggable
-               theme="dark"
+               theme="colored"
             />
             <Providers>{children}</Providers>
          </body>

@@ -1,5 +1,4 @@
 "use client";
-
 import userApi from "@/api/modules/userApi";
 import { setUser } from "@/hook/user.slice";
 import Link from "next/link";
@@ -8,8 +7,8 @@ import React, { FormEvent, Suspense, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
-const page = () => {
-   const dispatch = useDispatch();
+const SignIn = () => {
+   const Dispatch = useDispatch();
    const router = useRouter();
    const [username, setUsername] = useState("");
    const [password, setPassword] = useState("");
@@ -20,7 +19,7 @@ const page = () => {
       const { res, error } = await userApi.signin({ username, password });
       setIsLoading(false);
       if (res) {
-         dispatch(setUser(res));
+         Dispatch(setUser(res));
          setUsername("");
          setPassword("");
          toast.success("Sign in success");
@@ -139,4 +138,4 @@ const page = () => {
    );
 };
 
-export default page;
+export default SignIn;
