@@ -50,10 +50,12 @@ const TopRate = () => {
    return (
       <div className="mt-10">
          <div className="my-16 flex items-center justify-center">
-            <h1 className="text-4xl font-semibold">Top Rate</h1>
+            <h1 className="text-4xl font-semibold border-b-4 border-danger-400 pb-2">
+               Top Rate
+            </h1>
          </div>
 
-         <div className="flex flex-wrap gap-3 w-full justify-center">
+         <div className="flex flex-wrap gap-3 w-full justify-center md:justify-start">
             {items?.map((item: any, index: number) => (
                <div
                   className="relative h-full w-[45%] md:w-[19%] border-[1px] border-slate-900 group cursor-pointer"
@@ -64,7 +66,7 @@ const TopRate = () => {
                      src={tmdbConfig.posterPath(item?.poster_path)}
                      radius="none"
                   />
-                  <div className=" h-0 group-hover:h-[40%] xl:group-hover:h-[30%] absolute bottom-0 left-0 z-10 bg-black/70 w-full  whitespace-nowrap overflow-hidden text-ellipsis group-hover:px-2 group-hover:py-1 text-slate-200 transition-all duration-500 ease-in-out flex flex-col justify-between">
+                  <div className="h-[40%] md:h-0 group-hover:h-[40%] xl:group-hover:h-[30%] absolute bottom-0 left-0 z-10 bg-transparent group-hover:bg-black/70 w-full  whitespace-nowrap overflow-hidden text-ellipsis px-2 py-1 text-slate-200 transition-height duration-500 ease-in-out flex flex-col justify-between">
                      <h1 className="block whitespace-nowrap overflow-hidden text-ellipsis text-base font-medium ">
                         {item?.name}
                      </h1>
@@ -81,8 +83,8 @@ const TopRate = () => {
                      </div>
                      <div className="flex justify-between ">
                         <div>
-                           <span className="px-1 bg-danger-500 text-sm rounded">
-                              HD
+                           <span className="px-1 text-sm text-danger-300 font-medium border-[1px] border-danger-300">
+                              {item?.quality}
                            </span>
                         </div>
                         <span className="text-danger-500 flex justify-center items-center gap-1">
@@ -99,6 +101,7 @@ const TopRate = () => {
                isDisabled={isLoading}
                variant="ghost"
                color="danger"
+               radius="none"
                onPress={() => {
                   setPage(page + 1);
                   setIsLoading(true);

@@ -1,5 +1,7 @@
 "use client";
 import userApi from "@/api/modules/userApi";
+import { EyeFilledIcon } from "@/assets/icon/EyeIcon";
+import { EyeSlashFilledIcon } from "@/assets/icon/EyeSlashIcon";
 import Sidebar from "@/components/Sidebar";
 import { selectUser } from "@/hook/user.slice";
 import { Button, Input } from "@nextui-org/react";
@@ -11,7 +13,11 @@ const Setting = () => {
    const user = useSelector(selectUser);
    const [edit, setEdit] = useState(false);
    const [name, setName] = useState("");
+   const [isVisible, setIsVisible] = React.useState(false);
+   const [password, setPassword] = useState("");
    const [newPassword, setNewPassword] = useState("");
+   const [confirmPassword, setConfirmPassword] = useState("");
+   const toggleVisibility = () => setIsVisible(!isVisible);
    const handleSave = async () => {
       const { res, error } = await userApi.edit({
          id: user._id,
@@ -19,11 +25,15 @@ const Setting = () => {
          newPassword: newPassword,
       });
       if (res) {
-         toast.success("Changed Name Successfully");
+         toast.success("Changed Successfully");
       }
       if (error) toast.error(error.message);
    };
-   console.log(name);
+   const handleCancel = () => {
+      setPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+   };
 
    return (
       <div className="w-full flex flex-col gap-5">
@@ -95,7 +105,30 @@ const Setting = () => {
                   </h1>
                </div>
                <div className="w-full">
-                  <Input variant="bordered" color="secondary" radius="full" />
+                  <Input
+                     variant="bordered"
+                     color="secondary"
+                     radius="full"
+                     placeholder="Old password"
+                     value={password}
+                     onChange={(e) => setPassword(e.target.value)}
+                     autoComplete="off"
+                     autoFocus={false}
+                     endContent={
+                        <button
+                           className="focus:outline-none"
+                           type="button"
+                           onClick={toggleVisibility}
+                        >
+                           {isVisible ? (
+                              <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                           ) : (
+                              <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                           )}
+                        </button>
+                     }
+                     type={isVisible ? "text" : "password"}
+                  />
                </div>
             </div>
             <div className="w-full flex gap-5  py-3 items-center">
@@ -105,7 +138,29 @@ const Setting = () => {
                   </h1>
                </div>
                <div className="w-full">
-                  <Input variant="bordered" color="secondary" radius="full" />
+                  <Input
+                     variant="bordered"
+                     color="secondary"
+                     radius="full"
+                     placeholder="New password"
+                     value={newPassword}
+                     autoComplete="off"
+                     onChange={(e) => setNewPassword(e.target.value)}
+                     endContent={
+                        <button
+                           className="focus:outline-none"
+                           type="button"
+                           onClick={toggleVisibility}
+                        >
+                           {isVisible ? (
+                              <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                           ) : (
+                              <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                           )}
+                        </button>
+                     }
+                     type={isVisible ? "text" : "password"}
+                  />
                </div>
             </div>
             <div className="w-full flex gap-5  py-3 items-center">
@@ -115,11 +170,46 @@ const Setting = () => {
                   </h1>
                </div>
                <div className="w-full">
-                  <Input variant="bordered" color="secondary" radius="full" />
+                  <Input
+                     variant="bordered"
+                     color="secondary"
+                     radius="full"
+                     placeholder="Confirm new password"
+                     value={confirmPassword}
+                     onChange={(e) => setConfirmPassword(e.target.value)}
+                     autoComplete="off"
+                     endContent={
+                        <button
+                           className="focus:outline-none"
+                           type="button"
+                           onClick={toggleVisibility}
+                        >
+                           {isVisible ? (
+                              <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                           ) : (
+                              <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                           )}
+                        </button>
+                     }
+                     type={isVisible ? "text" : "password"}
+                  />
                </div>
             </div>
             <div className="w-full flex gap-5  py-3 items-center justify-center">
-               <Button variant="ghost" radius="full" color="success">
+               <Button
+                  variant="ghost"
+                  radius="full"
+                  color="danger"
+                  onClick={handleCancel}
+               >
+                  Cancel
+               </Button>
+               <Button
+                  variant="ghost"
+                  radius="full"
+                  color="success"
+                  onClick={handleSave}
+               >
                   Save
                </Button>
             </div>

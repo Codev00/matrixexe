@@ -58,9 +58,13 @@ const HeroSlice = () => {
                         }}
                      ></div>
                      <div className="w-full h-screen flex items-center justify-center">
-                        <div className="relative flex flex-row w-[75%] gap-2">
+                        <div
+                           className={`relative flex ${
+                              index % 2 === 0 ? "flex-row" : "flex-row-reverse"
+                           } w-[75%] gap-10 `}
+                        >
                            <div className="w-full h-[500px] flex flex-col justify-center p-7">
-                              <h2 className="text-6xl font-bold mb-5 text-white">
+                              <h2 className="text-6xl font-bold mb-5 text-white drop-shadow-xl">
                                  {item?.name}
                               </h2>
                               <Genres genres={item.genres} size="lg" />

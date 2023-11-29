@@ -37,7 +37,9 @@ const Comming = () => {
    return (
       <div className="mt-10">
          <div className="my-16 flex items-center justify-center">
-            <h1 className="text-4xl font-semibold">New Movies</h1>
+            <h1 className="text-4xl font-semibold border-b-4 border-danger-400 pb-2">
+               New Movies
+            </h1>
          </div>
          <div>
             <Swiper
@@ -77,7 +79,7 @@ const Comming = () => {
                               src={tmdbConfig.posterPath(item?.poster_path)}
                               radius="none"
                            />
-                           <div className=" h-0 group-hover:h-[40%] xl:group-hover:h-[30%] absolute bottom-0 left-0 z-10 bg-black/70 w-full  whitespace-nowrap overflow-hidden text-ellipsis group-hover:px-2 group-hover:py-1 text-slate-200 transition-all duration-500 ease-in-out flex flex-col justify-between">
+                           <div className="h-[40%] md:h-0 group-hover:h-[40%] xl:group-hover:h-[30%] absolute bottom-0 left-0 z-10 bg-transparent group-hover:bg-black/70 w-full  whitespace-nowrap overflow-hidden text-ellipsis px-2 py-1 text-slate-200 transition-height duration-500 ease-in-out flex flex-col justify-between">
                               <div>
                                  <h1 className="block whitespace-nowrap overflow-hidden text-ellipsis text-base font-medium ">
                                     {item?.name}
@@ -96,8 +98,8 @@ const Comming = () => {
                               </div>
                               <div className="flex justify-between ">
                                  <div>
-                                    <span className="px-1 bg-danger-500 text-sm rounded">
-                                       HD
+                                    <span className="px-1 text-sm text-danger-300 font-medium border-[1px] border-danger-300">
+                                       {item?.quality}
                                     </span>
                                  </div>
                                  <span className="text-danger-500 flex justify-center items-center gap-1 font-bold">

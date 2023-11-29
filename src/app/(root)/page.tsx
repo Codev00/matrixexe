@@ -13,26 +13,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 export default function Home() {
-   const dispatch = useDispatch();
-   useEffect(() => {
-      (async () => {
-         const { res, error } = await mediaApi.listMedia();
-         if (res) dispatch(setListMovie(res));
-         if (error) toast.error(error?.message);
-      })();
-      (async () => {
-         const { res, error } = await genreApi.list();
-         if (res) dispatch(setGenres(res));
-         if (error) toast.error(error?.message);
-      })();
-   }, [dispatch]);
-   useEffect(() => {
-      (async () => {
-         const { res, error } = await userApi.getInfo();
-         if (res) dispatch(setUser(res));
-         if (error) toast.error(error?.message);
-      })();
-   }, [dispatch]);
+  
    return (
       <main className="flex flex-col pt-[60px] md:pt-[0px] scrollbar-hide">
          <HeroSlice />

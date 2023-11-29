@@ -8,7 +8,7 @@ import {
    Tooltip,
    User,
 } from "@nextui-org/react";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import UserReview from "./UserReview";
 import { UserType } from "@/types/user.type";
 import { ReviewType } from "@/types/media.type";
@@ -28,6 +28,8 @@ const Comments = ({
 }) => {
    const [comment, setComment] = useState("");
    const [edit, setEdit] = useState("");
+   const [page, setPage] = useState(1);
+   const rowPerPage = 4;
    const handleSubmit = async () => {
       const { res, error } = await reviewApi.created({
          mediaId,
@@ -54,6 +56,20 @@ const Comments = ({
       }
       if (error) console.log(error);
    };
+   const items: ReviewType[] | undefined = useMemo(() => {
+      const start = 0;
+      const add = (page - 1) * rowPerPage;
+      const end = add + rowPerPage;
+      return reviews
+         ?.sort((a: ReviewType, b: ReviewType) => {
+            return (
+               new Date(b?.createdAt).valueOf() -
+               new Date(a?.createdAt).valueOf()
+            );
+         })
+         .slice(start, end);
+   }, [page, reviews]);
+
    return (
       <div className="container">
          <div className="px-4 md:px-0">
@@ -70,7 +86,7 @@ const Comments = ({
                            </h1>
                         </div>
                      )}
-                     {reviews?.map((item, index) => (
+                     {items?.map((item, index) => (
                         <UserReview
                            key={index}
                            review={item}
@@ -87,9 +103,23 @@ const Comments = ({
                      ))}
                   </div>
                   <div className="w-full flex items-center justify-center mt-4">
-                     <Button variant="ghost" color="warning">
-                        Load more
-                     </Button>
+                     {items?.length === reviews?.length ? (
+                        <Button
+                           variant="ghost"
+                           color="secondary"
+                           onClick={() => setPage(1)}
+                        >
+                           Recall
+                        </Button>
+                     ) : (
+                        <Button
+                           variant="ghost"
+                           color="warning"
+                           onClick={() => setPage(page + 1)}
+                        >
+                           Load more
+                        </Button>
+                     )}
                   </div>
                </div>
                <div className="flex gap-2 items-start mx-3 border-t-1 border-slate-600 pt-2 px-1">

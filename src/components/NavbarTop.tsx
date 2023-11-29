@@ -24,13 +24,22 @@ import {
    Accordion,
    AccordionItem,
 } from "@nextui-org/react";
-import { Movie, listGenres, setActive } from "@/hook/global.slice";
-import { logout, selectUser } from "@/hook/user.slice";
+import {
+   Movie,
+   listGenres,
+   setActive,
+   setGenres,
+   setListMovie,
+} from "@/hook/global.slice";
+import { logout, selectUser, setUser } from "@/hook/user.slice";
 import { toast } from "react-toastify";
 import ListGenre from "./ListGenre";
 import { SearchIcon } from "@/assets/icon/SearchIcon";
 import tmdbConfig from "@/api/config/tmdb.config";
 import Genres from "./Genres";
+import userApi from "@/api/modules/userApi";
+import mediaApi from "@/api/modules/mediaApi";
+import genreApi from "@/api/modules/genreApi";
 const NavbarTop = () => {
    const user = useSelector(selectUser);
    const [scroll, setScroll] = useState(0);
@@ -76,7 +85,25 @@ const NavbarTop = () => {
          });
       }
    }, [search]);
-
+   useEffect(() => {
+      (async () => {
+         const { res, error } = await mediaApi.listMedia();
+         if (res) dispatch(setListMovie(res));
+         if (error) toast.error(error?.message);
+      })();
+      (async () => {
+         const { res, error } = await genreApi.list();
+         if (res) dispatch(setGenres(res));
+         if (error) toast.error(error?.message);
+      })();
+   }, [dispatch]);
+   useEffect(() => {
+      (async () => {
+         const { res, error } = await userApi.getInfo();
+         if (res) dispatch(setUser(res));
+         if (error) toast.error(error?.message);
+      })();
+   }, [dispatch]);
    return (
       <Navbar
          shouldHideOnScroll
@@ -228,7 +255,7 @@ const NavbarTop = () => {
          </NavbarMenu>
          {user.username && (
             <NavbarContent as="div" justify="end">
-               <div className="relative">
+               <div className="hidden md:block relative">
                   <Input
                      classNames={{
                         base: "max-w-[8rem] sm:max-w-[10rem] h-10",
@@ -237,7 +264,7 @@ const NavbarTop = () => {
                         inputWrapper:
                            "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
                      }}
-                     placeholder="Search movie name..."
+                     placeholder="Search movie..."
                      size="sm"
                      variant="flat"
                      onKeyDown={(event) => {
@@ -250,6 +277,7 @@ const NavbarTop = () => {
                      type="search"
                      onChange={(e) => setSearch(e.target.value)}
                      value={search}
+                     autoComplete="off"
                   />
                   {searchList && (
                      <div className="absolute bg-slate-950 w-[250px] right-0 max-h-[500px] mt-2 overflow-y-scroll scrollbar-hide px-1 py-2 rounded-md">
@@ -276,7 +304,7 @@ const NavbarTop = () => {
                                     )}
                                     width={100}
                                     height={150}
-                                    radius="none"
+                                    radius="md"
                                     className="w-[100px]"
                                  />
                                  <div className="text-sm font-bold w-[140px] text-slate-100 whitespace-wrap overflow-hidden text-ellipsis">
