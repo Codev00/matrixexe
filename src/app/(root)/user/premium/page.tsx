@@ -1,21 +1,19 @@
 "use client";
 import userApi from "@/api/modules/userApi";
 import StarIcon from "@/assets/icon/StarIcon";
-import { selectUser } from "@/hook/user.slice";
+import { Premium } from "@/hook/global.slice";
 import { Button, Chip } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useSelector } from "react-redux";
 
-const Premium = () => {
+const PremiumPage = () => {
    const router = useRouter();
-   const idRan = Math.floor(Math.random() * 999999999);
-   const user = useSelector(selectUser);
+   const idRan = Math.floor(Math.random() * 999999999999);
+   const isPremium = useSelector(Premium);
    const handleSubmit = async () => {
       const { res, error } = await userApi.premium(idRan);
       if (res) {
-         console.log(res.paymentUrl);
-
          router.push(res.paymentUrl);
       }
       if (error) console.log(error);
@@ -32,12 +30,12 @@ const Premium = () => {
                         </h1>
                         <ul className="min-h-[250px] flex flex-col gap-5 px-4 text-slate-300">
                            <li className="flex items-center gap-5 text-lg">
-                              <StarIcon className="text-danger-400 text-4xl" />
+                              <StarIcon className="text-secondary-400 text-4xl" />
                               Lorem ipsum dolor sit amet consectetur adipisicing
                               elit.
                            </li>
                            <li className="flex items-center gap-5 text-lg">
-                              <StarIcon className="text-danger-400 text-4xl" />
+                              <StarIcon className="text-secondary-400 text-4xl" />
                               Lorem ipsum dolor sit amet consectetur adipisicing
                               elit.
                            </li>
@@ -58,12 +56,12 @@ const Premium = () => {
                            >
                               Free
                            </Button>
-                           {!user.premium && (
+                           {!isPremium && (
                               <Chip
                                  variant="bordered"
                                  color="default"
                                  className="text-slate-500"
-                                 radius="full"
+                                 radius="none"
                               >
                                  Activated
                               </Chip>
@@ -101,14 +99,16 @@ const Premium = () => {
                                  size="lg"
                                  className="text-2xl font-bold italic"
                                  onClick={handleSubmit}
+                                 isDisabled={isPremium}
                               >
                                  $299.00
                               </Button>
-                              {user.premium && (
+
+                              {isPremium && (
                                  <Chip
                                     variant="bordered"
                                     color="secondary"
-                                    radius="full"
+                                    radius="none"
                                  >
                                     Activated
                                  </Chip>
@@ -124,4 +124,4 @@ const Premium = () => {
    );
 };
 
-export default Premium;
+export default PremiumPage;

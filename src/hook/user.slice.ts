@@ -1,6 +1,8 @@
 import { UserType } from "@/types/user.type";
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
+import "js-cookie";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
 
 interface UserState {
    user: UserType;
@@ -26,16 +28,18 @@ const UserSlice = createSlice({
    reducers: {
       setUser: (state, action) => {
          if (action.payload.token === null) {
-            localStorage.removeItem("acc_token");
+            deleteCookie("acc_token");
          }
          if (action.payload.token) {
-            localStorage.setItem("acc_token", action.payload.token);
+            setCookie("acc_token", action.payload.token, {
+               maxAge: 24 * 60 * 60,
+            });
          }
          state.user = action.payload;
       },
       logout: (state) => {
-         if (localStorage.getItem("acc_token")) {
-            localStorage.removeItem("acc_token");
+         if (getCookie("acc_token")) {
+            deleteCookie("acc_token");
          }
 
          state.user = {
@@ -51,9 +55,11 @@ const UserSlice = createSlice({
          };
       },
       deleteFavorite: (state, action) => {
-         state.user.favorites = state.user.favorites.filter(
-            (item: any) => item._id !== action.payload
-         );
+         if (state.user) {
+            state.user.favorites = state.user.favorites.filter(
+               (item: any) => item !== action.payload
+            );
+         }
       },
    },
 });

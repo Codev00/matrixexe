@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/hook/Providers";
 import { ToastContainer } from "react-toastify";
+import React from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,17 +21,19 @@ export default function RootLayout({
    return (
       <html lang="en" className="dark">
          <body className={`${inter.className} scrollbar-hide`}>
-            <ToastContainer
-               position="top-center"
-               autoClose={1000}
-               hideProgressBar={true}
-               newestOnTop={false}
-               closeOnClick
-               rtl={false}
-               draggable
-               theme="colored"
-            />
-            <Providers>{children}</Providers>
+            <Providers>
+               <ToastContainer
+                  position="top-center"
+                  autoClose={1000}
+                  hideProgressBar={true}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  draggable
+                  theme="dark"
+               />
+               {children}
+            </Providers>
          </body>
       </html>
    );

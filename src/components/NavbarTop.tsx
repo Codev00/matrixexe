@@ -1,6 +1,6 @@
 "use client";
 import { RootState } from "@/hook/store";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -8,7 +8,6 @@ import {
    NavbarBrand,
    NavbarContent,
    NavbarItem,
-   Button,
    Link,
    NavbarMenu,
    NavbarMenuItem,
@@ -30,16 +29,17 @@ import {
    setActive,
    setGenres,
    setListMovie,
+   setPremium,
 } from "@/hook/global.slice";
 import { logout, selectUser, setUser } from "@/hook/user.slice";
 import { toast } from "react-toastify";
 import ListGenre from "./ListGenre";
 import { SearchIcon } from "@/assets/icon/SearchIcon";
 import tmdbConfig from "@/api/config/tmdb.config";
-import Genres from "./Genres";
 import userApi from "@/api/modules/userApi";
 import mediaApi from "@/api/modules/mediaApi";
 import genreApi from "@/api/modules/genreApi";
+
 const NavbarTop = () => {
    const user = useSelector(selectUser);
    const [scroll, setScroll] = useState(0);
@@ -74,15 +74,17 @@ const NavbarTop = () => {
       if (p === "about") dispatch(setActive("About"));
    }, [p]);
    const handleLogout = () => {
-      localStorage.removeItem("acc_token");
       dispatch(logout());
       toast.warning("You are signed out !!!");
+      router.push("sign-in");
    };
    const searchList = useMemo(() => {
       if (search) {
-         return movies.filter((movie) => {
-            return movie.name.toLowerCase().includes(search.toLowerCase());
-         });
+         return movies
+            .filter((movie) => {
+               return movie.name.toLowerCase().includes(search.toLowerCase());
+            })
+            .slice(0, 7);
       }
    }, [search]);
    useEffect(() => {
@@ -100,10 +102,17 @@ const NavbarTop = () => {
    useEffect(() => {
       (async () => {
          const { res, error } = await userApi.getInfo();
-         if (res) dispatch(setUser(res));
+         if (res) {
+            dispatch(setUser(res));
+            dispatch(setPremium(res.premium));
+         }
          if (error) toast.error(error?.message);
       })();
    }, [dispatch]);
+   const handleSearch = () => {
+      console.log(search);
+      router.push(`/movie/search?title=${search}`);
+   };
    return (
       <Navbar
          shouldHideOnScroll
@@ -164,7 +173,7 @@ const NavbarTop = () => {
             {menuItems.map((item, index) => (
                <NavbarItem
                   key={index}
-                  isActive={isActive === item.name ? true : false}
+                  isActive={isActive === item.name}
                   className="cursor-pointer"
                >
                   {item.name === "Genres" ? (
@@ -278,6 +287,11 @@ const NavbarTop = () => {
                      onChange={(e) => setSearch(e.target.value)}
                      value={search}
                      autoComplete="off"
+                     onKeyUp={(e) => {
+                        if (e.key === "Enter") {
+                           handleSearch();
+                        }
+                     }}
                   />
                   {searchList && (
                      <div className="absolute bg-slate-950 w-[250px] right-0 max-h-[500px] mt-2 overflow-y-scroll scrollbar-hide px-1 py-2 rounded-md">
@@ -313,6 +327,13 @@ const NavbarTop = () => {
                               </div>
                            ))}
                         </div>
+                        {searchList.length > 0 && (
+                           <div className="flex w-full h-[50px] bg-red-500 justify-center items-center mt-1">
+                              <span className="text-slate-100 ">
+                                 Enter to watch more
+                              </span>
+                           </div>
+                        )}
                      </div>
                   )}
                </div>

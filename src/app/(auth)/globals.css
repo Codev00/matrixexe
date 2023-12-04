@@ -13,24 +13,12 @@
    box-sizing: border-box;
 }
 
-.bg-payment {
-   background-image: linear-gradient(
-      to right bottom,
-      #000000,
-      #010101,
-      #020201,
-      #020202,
-      #030303,
-      #0b0814,
-      #120d1e,
-      #161128,
-      #21153e,
-      #301655,
-      #43126a,
-      #5a017d
-   );
+.signInBg {
+   height: 100dvh;
+   background-image: url("../../../public/images/hero.jpg");
+   background-repeat: no-repeat;
+   background-size: cover;
 }
-
 .back::after {
    content: "";
    position: absolute;

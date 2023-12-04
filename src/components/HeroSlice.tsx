@@ -7,6 +7,11 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Genres from "./Genres";
+import localFont from "next/font/local";
+
+const myFont = localFont({
+   src: "../assets/fonts/FirstChristmas-M8av.ttf",
+});
 
 const HeroSlice = () => {
    const [medias, setMedias] = useState<MovieType[]>([]);
@@ -64,7 +69,9 @@ const HeroSlice = () => {
                            } w-[75%] gap-10 `}
                         >
                            <div className="w-full h-[500px] flex flex-col justify-center p-7">
-                              <h2 className="text-6xl font-bold mb-5 text-white drop-shadow-xl">
+                              <h2
+                                 className={`${myFont.className} text-7xl max-h-[220px] whitespace-wrap overflow-hidden text-ellipsis mb-5 text-white drop-shadow-xl`}
+                              >
                                  {item?.name}
                               </h2>
                               <Genres genres={item.genres} size="lg" />

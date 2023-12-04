@@ -3,14 +3,15 @@ import userApi from "@/api/modules/userApi";
 import { EyeFilledIcon } from "@/assets/icon/EyeIcon";
 import { EyeSlashFilledIcon } from "@/assets/icon/EyeSlashIcon";
 import Sidebar from "@/components/Sidebar";
-import { selectUser } from "@/hook/user.slice";
+import { selectUser, setUser } from "@/hook/user.slice";
 import { Button, Input } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 const Setting = () => {
    const user = useSelector(selectUser);
+   const dispatch = useDispatch();
    const [edit, setEdit] = useState(false);
    const [name, setName] = useState("");
    const [isVisible, setIsVisible] = React.useState(false);
@@ -19,12 +20,29 @@ const Setting = () => {
    const [confirmPassword, setConfirmPassword] = useState("");
    const toggleVisibility = () => setIsVisible(!isVisible);
    const handleSave = async () => {
+      if (newPassword) {
+         if (!password) {
+            toast.error("Please enter your current password");
+            return;
+         }
+         if (newPassword !== confirmPassword) {
+            toast.error("Password does not match");
+            return;
+         }
+      }
       const { res, error } = await userApi.edit({
          id: user._id,
          name: name,
+         password: password,
          newPassword: newPassword,
       });
       if (res) {
+         dispatch(setUser(res));
+         setEdit(false);
+         setName("");
+         setPassword("");
+         setNewPassword("");
+         setConfirmPassword("");
          toast.success("Changed Successfully");
       }
       if (error) toast.error(error.message);
