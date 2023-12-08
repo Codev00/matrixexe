@@ -2,7 +2,7 @@ import axios from "axios";
 import queryString from "query-string";
 import { getCookie } from "cookies-next";
 
-const baseURL = "http://127.0.0.1:8000/api/v1/";
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const privateClient = axios.create({
    baseURL,

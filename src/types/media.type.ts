@@ -38,6 +38,7 @@ export type MovieType = {
    overview: string;
    runtime: number;
    views: number;
+   premium: boolean;
    release_date: string;
    direction: string[];
    actor: [];

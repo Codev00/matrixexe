@@ -19,17 +19,9 @@ export async function middleware(request: NextRequest) {
    }
 
    let token = request.cookies.get("acc_token");
-   let premium = request.cookies.get("acc_premium");
-
    if (!token && request.nextUrl.pathname !== "/sign-in") {
       return NextResponse.redirect(new URL("/sign-in", request.url));
    }
-
-   // if (premium?.value && request.nextUrl.pathname === "/user/premium") {
-   //    return NextResponse.redirect(
-   //       new URL("/user/premium/payment", request.url)
-   //    );
-   // }
 
    return NextResponse.next();
 }

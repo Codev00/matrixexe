@@ -6,7 +6,7 @@ const mediaApi = {
    listMedia: async () => {
       try {
          const res = await publicClient.get<MovieType[], MovieType[]>(
-            "/movie/list"
+            "/api/v1/movie/list"
          );
          return { res };
       } catch (error: any) {
@@ -16,7 +16,7 @@ const mediaApi = {
    getMedia: async (id: any) => {
       try {
          const res = await publicClient.get<MovieType, MovieType>(
-            `/movie/get/${id}`
+            `/api/v1/movie/get/${id}`
          );
          return { res };
       } catch (error: any) {
@@ -26,7 +26,7 @@ const mediaApi = {
    searchGenre: async (id: any) => {
       try {
          const res = await publicClient.get<MovieType[], MovieType[]>(
-            `/movie/search/genre?search=${id}`
+            `/api/v1/movie/search/genre?search=${id}`
          );
          return { res };
       } catch (error: any) {

@@ -52,6 +52,7 @@ const NavbarTop = () => {
    const menuItems = [
       { name: "Home", link: "/" },
       { name: "Movie", link: "/movie/list" },
+      { name: "Premium", link: "/premium" },
       { name: "Genres", link: "/genres" },
       { name: "About", link: "/about" },
    ];
@@ -71,6 +72,7 @@ const NavbarTop = () => {
    useLayoutEffect(() => {
       if (p === "") dispatch(setActive("Home"));
       if (p === "movie") dispatch(setActive("Movie"));
+      if (p === "premium") dispatch(setActive("Premium"));
       if (p === "about") dispatch(setActive("About"));
    }, [p]);
    const handleLogout = () => {
@@ -253,6 +255,8 @@ const NavbarTop = () => {
                               ? "/"
                               : item.name === "Movie"
                               ? "/movie/list"
+                              : item.name === "Premium"
+                              ? "/premium"
                               : "/about"
                         }
                      >

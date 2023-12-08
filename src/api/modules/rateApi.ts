@@ -3,7 +3,7 @@ import publicClient from "../config/public.client";
 const rateApi = {
    create: async ({ mediaId, userId, rating }: any) => {
       try {
-         const res = await publicClient.post("/rated/created", {
+         const res = await publicClient.post("/api/v1/rated/created", {
             mediaId,
             userId,
             rating,

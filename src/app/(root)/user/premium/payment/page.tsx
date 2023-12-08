@@ -70,6 +70,10 @@ const Payment = () => {
                   if (res) {
                      dispatch(setUser(res));
                      dispatch(setPremium(res.premium));
+                     await userApi.createBill({
+                        amount: vnp_Amount,
+                        userId: res._id,
+                     });
                   }
                   if (error) toast.error(error?.message);
                })();

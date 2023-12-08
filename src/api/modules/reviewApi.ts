@@ -4,7 +4,7 @@ import publicClient from "../config/public.client";
 const reviewApi = {
    created: async ({ mediaId, userId, review }: any) => {
       try {
-         const res = await publicClient.post(`/review/create`, {
+         const res = await publicClient.post(`/api/v1/review/create`, {
             mediaId,
             userId,
             review,

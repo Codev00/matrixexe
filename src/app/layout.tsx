@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { Providers } from "@/hook/Providers";
 import { ToastContainer } from "react-toastify";
 import React from "react";
 
 const inter = Inter({ subsets: ["latin"] });
+const titleFont = localFont({
+   src: "../../public/fonts/FirstChristmas-M8av.ttf",
+   variable: "--font-title",
+   display: "swap",
+});
 
 export const metadata: Metadata = {
    title: "Matrix",

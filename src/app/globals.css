@@ -30,7 +30,9 @@
       #5a017d
    );
 }
-
+.title {
+   font-family: var(--font-title);
+}
 .back::after {
    content: "";
    position: absolute;
