@@ -3,16 +3,11 @@ import userApi from "@/api/modules/userApi";
 import { resultType } from "@/types/media.type";
 import { usePathname, useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
-import localFont from "next/font/local";
 import { useDispatch } from "react-redux";
 import { setPremium } from "@/hook/global.slice";
 import { setUser } from "@/hook/user.slice";
 import { toast } from "react-toastify";
-
-const fontPayment = localFont({
-   src: "../../../../../assets/fonts/FirstChristmas-M8av.ttf",
-   display: "swap",
-});
+import Title from "@/components/Title";
 
 const Payment = () => {
    const searchParams = useSearchParams();
@@ -87,17 +82,17 @@ const Payment = () => {
    }, []);
    return (
       <div
-         className={` container w-full h-screen bg-payment  flex flex-col justify-start items-center pt-20`}
+         className={` container w-full h-screen  flex flex-col justify-start items-center pt-20`}
       >
          {result.isSuccess && (
             <div
                className={` text-4xl md:text-7xl font-normal flex flex-col items-center  gap-10`}
             >
-               <h1
-                  className={`${fontPayment.className} text-transparent bg-clip-text bg-gradient-to-r from-purple-700 via-violet-500 to-pink-600`}
+               <Title
+                  className={` text-transparent bg-clip-text bg-gradient-to-r from-purple-700 via-violet-500 to-pink-600`}
                >
                   Successful Transaction
-               </h1>
+               </Title>
                <div className="w-full flex flex-col gap-5 items-center">
                   <h1 className="text-2xl font-bold text-purple-700 uppercase italic">
                      Enjoy premium perks {"==>"}

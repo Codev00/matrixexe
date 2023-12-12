@@ -3,6 +3,7 @@ import tmdbConfig from "@/api/config/tmdb.config";
 import mediaApi from "@/api/modules/mediaApi";
 import { AddNoteIcon } from "@/assets/icon/NoteIcon";
 import StarIcon from "@/assets/icon/StarIcon";
+import Title from "@/components/Title";
 import { MovieType, RateType } from "@/types/media.type";
 import { Button, Image, Spinner } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
@@ -47,7 +48,7 @@ const ListMovie = () => {
       <div className="container">
          <div className="mt-20">
             <div className="my-14 flex items-center justify-center">
-               <h1 className="text-4xl font-semibold">List Movie</h1>
+               <Title className="text-5xl ">List Movie</Title>
             </div>
             <div className="flex flex-wrap gap-3 w-full justify-evenly md:justify-start">
                {items?.map((item, index: number) => (
@@ -60,7 +61,7 @@ const ListMovie = () => {
                         src={tmdbConfig.posterPath(item?.poster_path)}
                         radius="none"
                      />
-                     <div className="h-[40%] md:h-0 group-hover:h-[40%] xl:group-hover:h-[30%] absolute bottom-0 left-0 z-10 bg-transparent group-hover:bg-black/70 w-full  whitespace-nowrap overflow-hidden text-ellipsis px-2 py-1 text-slate-200 transition-height duration-500 ease-in-out flex flex-col justify-between">
+                     <div className="h-[40%] md:h-0 group-hover:h-[40%] xl:group-hover:h-[30%] absolute bottom-0 left-0 z-10 bg-black/70 md:bg-transparent group-hover:bg-black/70 w-full  whitespace-nowrap overflow-hidden text-ellipsis px-2 py-1 text-slate-200 transition-height duration-500 ease-in-out flex flex-col justify-between">
                         <div>
                            <h1 className="block whitespace-nowrap overflow-hidden text-ellipsis text-base font-medium ">
                               {item?.name}

@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { MovieType, RateType } from "@/types/media.type";
 import StarIcon from "@/assets/icon/StarIcon";
 import { AddNoteIcon } from "@/assets/icon/NoteIcon";
+import Title from "./Title";
 
 const Trending = () => {
    const [medias, setMedias] = useState<MovieType[]>([]);
@@ -37,9 +38,7 @@ const Trending = () => {
    return (
       <div className="mt-10">
          <div className="my-16 flex items-center justify-center">
-            <h1 className="text-4xl font-semibold border-b-4 border-danger-400 pb-2">
-               Trending
-            </h1>
+            <Title className="text-5xl">Trending</Title>
          </div>
          <div>
             <Swiper
@@ -81,7 +80,7 @@ const Trending = () => {
                               src={tmdbConfig.posterPath(item?.poster_path)}
                               radius="none"
                            />
-                           <div className="h-[40%] md:h-0 group-hover:h-[40%] xl:group-hover:h-[30%] absolute bottom-0 left-0 z-10 bg-transparent group-hover:bg-black/70 w-full  whitespace-nowrap overflow-hidden text-ellipsis px-2 py-1 text-slate-200 transition-height duration-500 ease-in-out flex flex-col justify-between">
+                           <div className="h-[30%] md:h-0 group-hover:h-[30%] xl:group-hover:h-[30%] absolute bottom-0 left-0 z-10 bg-black/70 md:bg-transparent group-hover:bg-black/70 w-full  whitespace-nowrap overflow-hidden text-ellipsis px-2 py-1 text-slate-200 transition-height duration-500 ease-in-out flex flex-col justify-between">
                               <h1 className="block whitespace-nowrap overflow-hidden text-ellipsis text-base font-medium ">
                                  {item?.name}
                               </h1>

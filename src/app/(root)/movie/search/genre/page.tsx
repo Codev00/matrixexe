@@ -35,13 +35,13 @@ const SearchGenre = () => {
    return (
       <div className="mt-20 container">
          <div className="my-10 text-2xl">
-            <h1>
+            <h1 className="px-2">
                Search Result:{" "}
                <span className="text-3xl font-semibold italic">{title}</span>
             </h1>
          </div>
          <div>
-            <div className="flex flex-wrap gap-3 w-full justify-between md:justify-start">
+            <div className="flex flex-wrap gap-3 w-full justify-between md:justify-start px-2">
                {items?.map((item: any, index: number) => (
                   <div
                      className="relative h-full w-[45%] md:w-[19%] border-[1px] border-slate-700 group cursor-pointer"
@@ -52,7 +52,7 @@ const SearchGenre = () => {
                         src={tmdbConfig.posterPath(item?.poster_path)}
                         radius="none"
                      />
-                     <div className="h-[40%] md:h-0 group-hover:h-[40%] xl:group-hover:h-[30%] absolute bottom-0 left-0 z-10 bg-transparent group-hover:bg-black/70 w-full  whitespace-nowrap overflow-hidden text-ellipsis px-2 py-1 text-slate-200 transition-all duration-500 ease-in-out flex flex-col justify-between">
+                     <div className="h-[30%] md:h-0  md:group-hover:h-[30%] absolute bottom-0 left-0 z-10  bg-black/70 md:group-hover:bg-black/70 w-full  whitespace-nowrap overflow-hidden text-ellipsis px-2 py-1 text-slate-200 transition-height duration-500 ease-in-out flex flex-col justify-between">
                         <h1 className="block whitespace-nowrap overflow-hidden text-ellipsis text-base font-medium ">
                            {item?.name}
                         </h1>

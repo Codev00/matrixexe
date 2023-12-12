@@ -5,9 +5,10 @@ import React from "react";
 
 const HomeLayout = ({ children }: { children: React.ReactNode }) => {
    return (
-      <section className="overflow-x-hidden">
+      <section className="overflow-x-hidden bg-payment">
          <NavbarTop />
          {children}
+         <div className="h-[50px]"></div>
          <Footer />
       </section>
    );

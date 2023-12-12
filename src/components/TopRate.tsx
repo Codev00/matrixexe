@@ -6,6 +6,7 @@ import { MovieType, RateType } from "@/types/media.type";
 import { Button, Image, Spinner } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import React, { useState, useLayoutEffect, useMemo, useEffect } from "react";
+import Title from "./Title";
 
 const TopRate = () => {
    const [medias, setMedias] = useState<MovieType[]>([]);
@@ -50,9 +51,7 @@ const TopRate = () => {
    return (
       <div className="mt-10">
          <div className="my-16 flex items-center justify-center">
-            <h1 className="text-4xl font-semibold border-b-4 border-danger-400 pb-2">
-               Top Rate
-            </h1>
+            <Title className="text-5xl">Top Rate</Title>
          </div>
 
          <div className="flex flex-wrap gap-3 w-full justify-center md:justify-start">
@@ -66,7 +65,7 @@ const TopRate = () => {
                      src={tmdbConfig.posterPath(item?.poster_path)}
                      radius="none"
                   />
-                  <div className="h-[40%] md:h-0 group-hover:h-[40%] xl:group-hover:h-[30%] absolute bottom-0 left-0 z-10 bg-transparent group-hover:bg-black/70 w-full  whitespace-nowrap overflow-hidden text-ellipsis px-2 py-1 text-slate-200 transition-height duration-500 ease-in-out flex flex-col justify-between">
+                  <div className="h-[30%] md:h-0 group-hover:h-[30%] xl:group-hover:h-[30%] absolute bottom-0 left-0 z-10 bg-black/70 md:bg-transparent group-hover:bg-black/70 w-full  whitespace-nowrap overflow-hidden text-ellipsis px-2 py-1 text-slate-200 transition-height duration-500 ease-in-out flex flex-col justify-between">
                      <h1 className="block whitespace-nowrap overflow-hidden text-ellipsis text-base font-medium ">
                         {item?.name}
                      </h1>

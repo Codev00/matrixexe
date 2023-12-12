@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import React, { Suspense, useEffect, useMemo, useState } from "react";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Title from "./Title";
 
 const Suggest = () => {
    const [suggest, setSuggest] = useState<MovieType[]>([]);
@@ -39,8 +40,10 @@ const Suggest = () => {
    return (
       <Suspense>
          <div className="my-20 mx-3 md:mx-0">
-            <div className="my-5 border-b-4 border-danger-400 pb-2">
-               <h1 className="text-4xl font-semibold italic">Suggest</h1>
+            <div className="my-5  pb-2">
+               <Title className="text-4xl italic text-secondary-500">
+                  Suggest
+               </Title>
             </div>
             <div>
                <Swiper
@@ -80,7 +83,7 @@ const Suggest = () => {
                               height={300}
                               loading="lazy"
                            />
-                           <div className="h-[40%] md:h-0 group-hover:h-[40%] xl:group-hover:h-[30%] absolute bottom-0 left-0 z-10 bg-transparent group-hover:bg-black/70 w-full  whitespace-nowrap overflow-hidden text-ellipsis px-2 py-1 text-slate-200 transition-height duration-500 ease-in-out flex flex-col justify-between ">
+                           <div className="h-[40%] md:h-0 group-hover:h-[40%] xl:group-hover:h-[30%] absolute bottom-0 left-0 z-10 bg-black/70 md:bg-transparent group-hover:bg-black/70 w-full  whitespace-nowrap overflow-hidden text-ellipsis px-2 py-1 text-slate-200 transition-height duration-500 ease-in-out flex flex-col justify-between ">
                               <h1 className="block whitespace-nowrap overflow-hidden text-ellipsis text-base font-medium ">
                                  {item?.name}
                               </h1>

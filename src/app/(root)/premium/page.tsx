@@ -3,6 +3,7 @@ import tmdbConfig from "@/api/config/tmdb.config";
 import mediaApi from "@/api/modules/mediaApi";
 import { AddNoteIcon } from "@/assets/icon/NoteIcon";
 import StarIcon from "@/assets/icon/StarIcon";
+import Title from "@/components/Title";
 import { MovieType, RateType } from "@/types/media.type";
 import { Button, Image, Spinner } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
@@ -18,9 +19,7 @@ const PremiumListMovie = () => {
       (async () => {
          const { res, error } = await mediaApi.listMedia();
          if (res) {
-            setMedias(() => {
-               return res.filter((item) => item.premium === true);
-            });
+            setMedias(() => res.filter((item) => item.premium === true));
          }
          if (error) console.log(error);
       })();
@@ -46,10 +45,10 @@ const PremiumListMovie = () => {
       return medias?.slice(start, end);
    }, [page, medias]);
    return (
-      <div className="container">
+      <div className="container min-h-screen">
          <div className="mt-20">
             <div className="my-14 flex items-center justify-center">
-               <h1 className="text-4xl font-semibold title">Premium Movie</h1>
+               <Title className="text-5xl">Premium Movie</Title>
             </div>
             <div className="flex flex-wrap gap-3 w-full justify-evenly md:justify-start">
                {items?.map((item, index: number) => (

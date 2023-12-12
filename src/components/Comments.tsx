@@ -14,6 +14,7 @@ import { UserType } from "@/types/user.type";
 import { ReviewType } from "@/types/media.type";
 import reviewApi from "@/api/modules/reviewApi";
 import { toast } from "react-toastify";
+import Title from "./Title";
 
 const Comments = ({
    user,
@@ -73,8 +74,8 @@ const Comments = ({
    return (
       <div className="container">
          <div className="px-4 md:px-0">
-            <div className="my-2 border-b-3 border-danger-400 w-full md:w-[75%]">
-               <h1 className="text-xl italic font-semibold">Reviews</h1>
+            <div className="my-2 ">
+               <Title className="text-2xl italic">Reviews</Title>
             </div>
             <div className="bg-slate-950 rounded-xl  py-2 h-auto min-h-[200px] w-full md:w-[75%] flex flex-col gap-4 ">
                <div>
