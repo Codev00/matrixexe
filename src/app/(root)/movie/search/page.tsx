@@ -55,7 +55,7 @@ const Search = () => {
                         src={tmdbConfig.posterPath(item?.poster_path)}
                         radius="none"
                      />
-                     <div className="h-[30%] md:h-0  md:group-hover:h-[30%] absolute bottom-0 left-0 z-10  bg-black/70 md:group-hover:bg-black/70 w-full  whitespace-nowrap overflow-hidden text-ellipsis px-2 py-1 text-slate-200 transition-height duration-500 ease-in-out flex flex-col justify-between">
+                     <div className="h-[30%] md:h-0 group-hover:h-[30%] xl:group-hover:h-[30%] absolute bottom-0 left-0 z-10 bg-black/70 md:bg-transparent group-hover:bg-black/70 w-full  whitespace-nowrap overflow-hidden text-ellipsis px-2 py-1 text-slate-200 transition-height duration-500 ease-in-out flex flex-col justify-between">
                         <h1 className="block whitespace-nowrap overflow-hidden text-ellipsis text-base font-medium ">
                            {item?.name}
                         </h1>

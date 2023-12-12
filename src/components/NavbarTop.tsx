@@ -112,8 +112,8 @@ const NavbarTop = () => {
       })();
    }, [dispatch]);
    const handleSearch = () => {
-      console.log(search);
       router.push(`/movie/search?title=${search}`);
+      setSearch("");
    };
    return (
       <Navbar
@@ -280,11 +280,6 @@ const NavbarTop = () => {
                      placeholder="Search movie..."
                      size="sm"
                      variant="flat"
-                     onKeyDown={(event) => {
-                        if (event.key === "Enter") {
-                           console.log(search);
-                        }
-                     }}
                      color="secondary"
                      startContent={<SearchIcon size={18} />}
                      type="search"

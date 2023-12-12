@@ -45,7 +45,7 @@ const ListMovie = () => {
       return medias?.slice(start, end);
    }, [page, medias]);
    return (
-      <div className="container">
+      <div className="container min-h-screen">
          <div className="mt-20">
             <div className="my-14 flex items-center justify-center">
                <Title className="text-5xl ">List Movie</Title>
