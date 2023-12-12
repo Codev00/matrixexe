@@ -57,7 +57,7 @@ const UserSlice = createSlice({
       deleteFavorite: (state, action) => {
          if (state.user) {
             state.user.favorites = state.user.favorites.filter(
-               (item: any) => item !== action.payload
+               (item: any) => item._id != action.payload
             );
          }
       },
