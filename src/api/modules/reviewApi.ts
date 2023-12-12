@@ -16,7 +16,7 @@ const reviewApi = {
    },
    edited: async ({ review, id }: any) => {
       try {
-         const res = await privateClient.put(`/review/update/${id}`, {
+         const res = await privateClient.put(`/api/v1/review/update/${id}`, {
             review: review,
          });
          return { res };
@@ -26,7 +26,7 @@ const reviewApi = {
    },
    deleted: async ({ id, mediaId }: any) => {
       try {
-         const res = await privateClient.put(`/review/delete/${id}`, {
+         const res = await privateClient.put(`/api/v1/review/delete/${id}`, {
             mediaId,
          });
          return { res };
