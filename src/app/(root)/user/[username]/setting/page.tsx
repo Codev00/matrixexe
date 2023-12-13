@@ -4,7 +4,8 @@ import { EyeFilledIcon } from "@/assets/icon/EyeIcon";
 import { EyeSlashFilledIcon } from "@/assets/icon/EyeSlashIcon";
 import Sidebar from "@/components/Sidebar";
 import { selectUser, setUser } from "@/hook/user.slice";
-import { Button, Input } from "@nextui-org/react";
+import { Button, Chip, Input } from "@nextui-org/react";
+import { log } from "console";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -19,6 +20,8 @@ const Setting = () => {
    const [newPassword, setNewPassword] = useState("");
    const [confirmPassword, setConfirmPassword] = useState("");
    const toggleVisibility = () => setIsVisible(!isVisible);
+   const [email, setEmail] = useState("");
+   const [editEmail, setEditEmail] = useState(false);
    const handleSave = async () => {
       if (newPassword) {
          if (!password) {
@@ -35,6 +38,7 @@ const Setting = () => {
          name: name,
          password: password,
          newPassword: newPassword,
+         email: email,
       });
       if (res) {
          dispatch(setUser(res));
@@ -45,8 +49,18 @@ const Setting = () => {
          setConfirmPassword("");
          toast.success("Changed Successfully");
       }
-      if (error) toast.error(error.message);
+      if (error) {
+         console.log(error);
+
+         toast.error(error.message);
+      }
    };
+   useEffect(() => {
+      if (user) {
+         setName(user.displayName);
+         setEmail(user.email);
+      }
+   }, []);
    const handleCancel = () => {
       setPassword("");
       setNewPassword("");
@@ -107,6 +121,71 @@ const Setting = () => {
                         variant="ghost"
                         radius="full"
                         onClick={() => setEdit(true)}
+                        size="sm"
+                     >
+                        Edit
+                     </Button>
+                  </div>
+               </div>
+            )}
+         </div>
+         <div className="w-full h-[100px] bg-slate-950 rounded-xl flex gap-5 items-center px-10">
+            <div className="w-[250px] text-xl font-bold text-slate-400 ">
+               <h1 className="flex justify-center">Email:</h1>
+            </div>
+            {editEmail ? (
+               <div className=" w-full flex gap-5 items-center">
+                  <div className="w-[50%] text-2xl font-bold  italic ">
+                     <Input
+                        color="secondary"
+                        variant="underlined"
+                        classNames={{
+                           input: ["text-xl"],
+                        }}
+                        placeholder="Enter your email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        type="email"
+                     />
+                  </div>
+                  <div className="flex gap-3">
+                     <Button
+                        color="danger"
+                        variant="ghost"
+                        radius="full"
+                        onClick={() => setEditEmail(false)}
+                        size="sm"
+                     >
+                        Cancel
+                     </Button>
+                     <Button
+                        color="success"
+                        variant="ghost"
+                        radius="full"
+                        size="sm"
+                        onClick={handleSave}
+                     >
+                        Save
+                     </Button>
+                  </div>
+               </div>
+            ) : (
+               <div className=" w-full flex gap-5 items-center">
+                  <div className="w-[50%] text-xl italic font-bold ">
+                     {email ? (
+                        <Chip variant="shadow" color="warning" size="lg">
+                           {user.email}
+                        </Chip>
+                     ) : (
+                        <h1>No email your account</h1>
+                     )}
+                  </div>
+                  <div>
+                     <Button
+                        color="secondary"
+                        variant="ghost"
+                        radius="full"
+                        onClick={() => setEditEmail(true)}
                         size="sm"
                      >
                         Edit

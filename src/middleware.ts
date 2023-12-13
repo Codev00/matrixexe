@@ -17,6 +17,9 @@ export async function middleware(request: NextRequest) {
    if (request.nextUrl.pathname.startsWith("/_next/image")) {
       return NextResponse.next();
    }
+   if (request.nextUrl.pathname.startsWith("/forgot-password")) {
+      return NextResponse.next();
+   }
 
    let token = request.cookies.get("acc_token");
    if (!token && request.nextUrl.pathname !== "/sign-in") {

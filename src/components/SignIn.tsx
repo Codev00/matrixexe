@@ -94,8 +94,11 @@ const SignIn = ({ setSignUp }: { setSignUp: () => void }) => {
                   </button>
                   <div className="flex flex-row items-center justify-between">
                      <span className="text-[#737373] text-[14px]"></span>
-                     <Link href={"#"} className="text-[#737373] text-[14px]">
-                        Bạn cần trợ giúp?
+                     <Link
+                        href={"/forgot-password"}
+                        className="text-[#737373] text-[14px] hover:text-danger-400"
+                     >
+                        Forgot password?
                      </Link>
                   </div>
                </form>

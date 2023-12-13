@@ -2,6 +2,7 @@ import { UserType } from "@/types/user.type";
 import privateClient from "../config/private.client";
 import publicClient from "../config/public.client";
 import { resultType } from "@/types/media.type";
+import ForgotPassword from "@/app/(auth)/forgot-password/page";
 
 const userApi = {
    signin: async ({
@@ -61,12 +62,13 @@ const userApi = {
          return { error };
       }
    },
-   edit: async ({ id, name, password, newPassword }: any) => {
+   edit: async ({ id, name, password, newPassword, email }: any) => {
       try {
          const res = await privateClient.put(`/api/v1/user/edit/${id}`, {
             name: name,
             password: password,
             newPassword: newPassword,
+            email: email,
          });
          return { res };
       } catch (error: any) {
@@ -119,6 +121,34 @@ const userApi = {
             {
                amount,
                userId,
+            }
+         );
+         return { res };
+      } catch (error: any) {
+         return { error };
+      }
+   },
+   forgotPassword: async ({ email }: any) => {
+      try {
+         const res = await publicClient.post<any, any>(
+            "/api/v1/user/forgot-password",
+            {
+               email,
+            }
+         );
+         return { res };
+      } catch (error: any) {
+         return { error };
+      }
+   },
+   resetPassword: async ({ password, email, token }: any) => {
+      try {
+         const res = await publicClient.put<any, any>(
+            "/api/v1/user/reset-password",
+            {
+               password,
+               email,
+               token,
             }
          );
          return { res };
