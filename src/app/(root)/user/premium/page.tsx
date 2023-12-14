@@ -30,12 +30,12 @@ const PremiumPage = () => {
                         </h1>
                         <ul className="min-h-[250px] flex flex-col gap-5 px-4 text-slate-300">
                            <li className="flex items-center gap-5 text-lg">
-                              <StarIcon className="text-secondary-400 text-4xl" />
+                              <StarIcon className="text-secondary-400 text-5xl" />
                               High video quality: Ability to select high
                               definition resolutions like FHD or 4K.
                            </li>
                            <li className="flex items-center gap-5 text-lg">
-                              <StarIcon className="text-secondary-400 text-4xl" />
+                              <StarIcon className="text-secondary-400 text-xl" />
                               List favorites
                            </li>
                            <li className="flex items-center gap-5 text-lg text-default-400">
@@ -44,7 +44,7 @@ const PremiumPage = () => {
                               technical issues arise.
                            </li>
                            <li className="flex items-center gap-5 text-lg text-default-400">
-                              <StarIcon className="text-default-400 text-4xl" />
+                              <StarIcon className="text-default-400 text-3xl" />
                               Watch movies exclusively for premium members
                            </li>
                         </ul>
@@ -79,12 +79,12 @@ const PremiumPage = () => {
                            </h1>
                            <ul className="min-h-[250px] flex flex-col gap-5 px-4 text-slate-300">
                               <li className="flex items-center gap-5 text-lg">
-                                 <StarIcon className="text-secondary-400 text-4xl" />
+                                 <StarIcon className="text-secondary-400 text-5xl" />
                                  High video quality: Ability to select high
                                  definition resolutions like FHD or 4K.
                               </li>
                               <li className="flex items-center gap-5 text-lg">
-                                 <StarIcon className="text-secondary-400 text-4xl" />
+                                 <StarIcon className="text-secondary-400 text-xl" />
                                  List favorites
                               </li>
                               <li className="flex items-center gap-5 text-lg text-default-400">
@@ -93,7 +93,7 @@ const PremiumPage = () => {
                                  technical issues arise.
                               </li>
                               <li className="flex items-center gap-5 text-lg text-default-400">
-                                 <StarIcon className="text-secondary-400 text-4xl" />
+                                 <StarIcon className="text-secondary-400 text-3xl" />
                                  Watch movies exclusively for premium members
                               </li>
                            </ul>
