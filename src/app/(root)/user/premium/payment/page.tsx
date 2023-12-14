@@ -97,18 +97,24 @@ const Payment = () => {
                   <h1 className="text-2xl font-bold text-purple-700 uppercase italic">
                      Enjoy premium perks {"==>"}
                   </h1>
-                  <div className="w-[50%] text-xl flex flex-col gap-5 ml-5">
+                  <div className="w-[50%] text-xl flex flex-col gap-5 ml-5 italic">
                      <h1>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Ad quaerat labore odio repellat. Iure, dolorem? Tempore,
+                        <span className="text-purple-700">{"==>"}</span> High
+                        video quality: Ability to select high definition
+                        resolutions like FHD or 4K.
                      </h1>
                      <h1>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Ad quaerat labore odio repellat. Iure, dolorem? Tempore,
+                        <span className="text-purple-700">{"==>"}</span> List
+                        favorites
                      </h1>
                      <h1>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Ad quaerat labore odio repellat. Iure, dolorem? Tempore,
+                        <span className="text-purple-700">{"==>"}</span>{" "}
+                        Priority support: Faster response times if technical
+                        issues arise.
+                     </h1>
+                     <h1>
+                        <span className="text-purple-700">{"==>"}</span> Watch
+                        movies exclusively for premium members
                      </h1>
                   </div>
                </div>

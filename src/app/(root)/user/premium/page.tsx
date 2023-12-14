@@ -31,18 +31,21 @@ const PremiumPage = () => {
                         <ul className="min-h-[250px] flex flex-col gap-5 px-4 text-slate-300">
                            <li className="flex items-center gap-5 text-lg">
                               <StarIcon className="text-secondary-400 text-4xl" />
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit.
+                              High video quality: Ability to select high
+                              definition resolutions like FHD or 4K.
                            </li>
                            <li className="flex items-center gap-5 text-lg">
                               <StarIcon className="text-secondary-400 text-4xl" />
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit.
+                              List favorites
                            </li>
                            <li className="flex items-center gap-5 text-lg text-default-400">
                               <StarIcon className="text-default-400 text-4xl" />
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit.
+                              Priority support: Faster response times if
+                              technical issues arise.
+                           </li>
+                           <li className="flex items-center gap-5 text-lg text-default-400">
+                              <StarIcon className="text-default-400 text-4xl" />
+                              Watch movies exclusively for premium members
                            </li>
                         </ul>
                         <div className="h-[120px] flex  gap-3 flex-col items-center justify-center">
@@ -77,18 +80,21 @@ const PremiumPage = () => {
                            <ul className="min-h-[250px] flex flex-col gap-5 px-4 text-slate-300">
                               <li className="flex items-center gap-5 text-lg">
                                  <StarIcon className="text-secondary-400 text-4xl" />
-                                 Lorem ipsum dolor sit amet consectetur
-                                 adipisicing elit.
+                                 High video quality: Ability to select high
+                                 definition resolutions like FHD or 4K.
                               </li>
                               <li className="flex items-center gap-5 text-lg">
                                  <StarIcon className="text-secondary-400 text-4xl" />
-                                 Lorem ipsum dolor sit amet consectetur
-                                 adipisicing elit.
+                                 List favorites
                               </li>
-                              <li className="flex items-center gap-5 text-lg ">
+                              <li className="flex items-center gap-5 text-lg text-default-400">
                                  <StarIcon className="text-secondary-400 text-4xl" />
-                                 Lorem ipsum dolor sit amet consectetur
-                                 adipisicing elit.
+                                 Priority support: Faster response times if
+                                 technical issues arise.
+                              </li>
+                              <li className="flex items-center gap-5 text-lg text-default-400">
+                                 <StarIcon className="text-secondary-400 text-4xl" />
+                                 Watch movies exclusively for premium members
                               </li>
                            </ul>
                            <div className="h-[120px] flex flex-col gap-3 items-center justify-center">
