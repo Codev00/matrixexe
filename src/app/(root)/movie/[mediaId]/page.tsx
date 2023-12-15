@@ -143,9 +143,15 @@ const DetailMedia = () => {
                         <div className="flex flex-col md:flex-row items-start md:items-center h-auto md:h-16 gap-5 md:gap-10 justify-start">
                            <div
                               className="playbtn relative min-w-16 gap-2 flex flex-row items-center hover:text-[#da2f68] cursor-pointer"
-                              onClick={() =>
-                                 router.push(`/movie/${mediaId}/play`)
-                              }
+                              onClick={() => {
+                                 if (!user.premium) {
+                                    toast.error(
+                                       "You need premium account to watch this movie"
+                                    );
+                                 } else {
+                                    router.push(`/movie/${mediaId}/play`);
+                                 }
+                              }}
                            >
                               <PlayIcon />
                               <span className="text-xl font-light transition-all duration-300 italic ease-in-out">
